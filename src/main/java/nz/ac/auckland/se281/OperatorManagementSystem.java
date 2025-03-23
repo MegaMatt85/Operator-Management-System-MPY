@@ -32,11 +32,19 @@ public class OperatorManagementSystem {
 
     initials = initials.toUpperCase();
 
-    // Converts the location name to a string
+    // A string of the abbreviated location name
+    String locationAbbr = locationFound.getLocationAbbreviation();
+
+    // A string for the operator number in the location
+    String operatorNum = "001";
+
+    // A string of the full location name
     String locationFull = locationFound.getFullName();
 
+    String operatorId = initials + "-" + locationAbbr + "-" + operatorNum;
+
     // Prints creating an operator at the location
-    MessageCli.OPERATOR_CREATED.printMessage(operatorName, initials, locationFull);
+    MessageCli.OPERATOR_CREATED.printMessage(operatorName, operatorId, locationFull);
   }
 
   public void viewActivities(String operatorId) {
