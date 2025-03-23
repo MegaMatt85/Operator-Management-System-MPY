@@ -28,6 +28,12 @@ public class OperatorManagementSystem {
       return;
     }
 
+    // Does not create operator if location is invalid
+    if (locationFound == null) {
+      MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
+      return;
+    }
+
     // Creates initials for the operatorName
     String initials = "";
     String[] words = operatorName.split(" ");
