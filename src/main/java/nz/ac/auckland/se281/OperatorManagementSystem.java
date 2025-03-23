@@ -8,19 +8,35 @@ public class OperatorManagementSystem {
   public OperatorManagementSystem() {}
 
   public void searchOperators(String keyword) {
-    // Prints no operators found
+    // Prints for no operators
     MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
+
+    // Prints for one operator
+    // MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
+
+    // Prints for two or more operators found
+    // MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(2), "s", ":");
   }
 
   public void createOperator(String operatorName, String location) {
     // Finds the maori and abbreviated name for the location unless invalid
     Location locationFound = Location.fromString(location);
 
-    // Converts the location name to strings
-    String  locationEng = locationFound.getNameEnglish();
+    // Creates initials for the operatorName
+    String initials = "";
+    String[] words = operatorName.split(" ");
+
+    for (String word : words) {
+        initials = initials + word.charAt(0);
+    }
+
+    initials = initials.toUpperCase();
+
+    // Converts the location name to a string
     String locationFull = locationFound.getFullName();
 
-    MessageCli.OPERATOR_CREATED.printMessage(operatorName, locationEng, locationFull);
+    // Prints creating an operator at the location
+    MessageCli.OPERATOR_CREATED.printMessage(operatorName, initials, locationFull);
   }
 
   public void viewActivities(String operatorId) {
