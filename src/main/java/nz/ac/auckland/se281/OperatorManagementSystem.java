@@ -19,8 +19,14 @@ public class OperatorManagementSystem {
   }
 
   public void createOperator(String operatorName, String location) {
-    // Finds the maori and abbreviated name for the location unless invalid
+    // Returns the location from the Locatiom enum
     Location locationFound = Location.fromString(location);
+
+    // Does not create operator if operatorName is invalid
+    if (operatorName.length() < 3) {
+      MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.printMessage(operatorName);
+      return;
+    }
 
     // Creates initials for the operatorName
     String initials = "";
