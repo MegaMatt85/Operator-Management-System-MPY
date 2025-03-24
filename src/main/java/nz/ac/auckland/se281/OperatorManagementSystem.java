@@ -11,14 +11,28 @@ public class OperatorManagementSystem {
   public OperatorManagementSystem() {}
 
   public void searchOperators(String keyword) {
-    // Prints for no operators
-    MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
+    // Goes through savedOperators counting how many of them include
+    int operatorsFound = 0;
+    String foundOperator = "";
+    for (int i = 0; i < savedOperators.size(); i++) {
+      if (savedOperators.get(i).getSearchResult().contains(keyword)) {
+        operatorsFound++;
+         foundOperator = savedOperators.get(i).getSearchResult();
+      }
+    }
 
-    // Prints for one operator
-    // MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
-
-    // Prints for two or more operators found
-    // MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(2), "s", ":");
+    if (operatorsFound == 0) {
+      // Prints for no operators
+      MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
+    } else if (operatorsFound == 1) {
+      // Prints for one operator
+       MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
+       System.out.println(foundOperator);
+    } else {
+      // Prints for two or more operators found
+      MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(2), "s", ":");
+      System.out.println(foundOperator);
+    }
   }
 
   public void createOperator(String operatorName, String location) {
