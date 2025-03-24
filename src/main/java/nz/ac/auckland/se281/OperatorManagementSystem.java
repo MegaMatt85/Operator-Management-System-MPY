@@ -1,8 +1,11 @@
 package nz.ac.auckland.se281;
 
 import nz.ac.auckland.se281.Types.Location;
+import java.util.ArrayList;
 
 public class OperatorManagementSystem {
+
+  private ArrayList<Operator> savedOperators = new ArrayList<Operator>();
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
@@ -19,7 +22,7 @@ public class OperatorManagementSystem {
   }
 
   public void createOperator(String operatorName, String location) {
-    // Returns the location from the Locatiom enum
+    // Returns the location from the Locatiom enum, otherwise null
     Location locationFound = Location.fromString(location);
 
     // Does not create operator if operatorName is invalid
@@ -37,25 +40,23 @@ public class OperatorManagementSystem {
     // Creates initials for the operatorName
     String initials = "";
     String[] words = operatorName.split(" ");
-
-    for (String word : words) {
+    for (String word : words) { // Creates a string of the first letter in each word
         initials = initials + word.charAt(0);
     }
-
     initials = initials.toUpperCase();
 
-    // A string of the abbreviated location name
+    // Creates Operator ID
     String locationAbbr = locationFound.getLocationAbbreviation();
-
-    // A string for the operator number in the location
     String operatorNum = "001";
-
-    // A string of the full location name
-    String locationFull = locationFound.getFullName();
-
     String operatorId = initials + "-" + locationAbbr + "-" + operatorNum;
 
-    // Prints creating an operator at the location
+    String locationFull = locationFound.getFullName();
+
+    // Creates an instance of the operator with its details
+    Operator operator = new Operator(operatorName, operatorId, locationFound);
+    this.savedOperators.add(operator);
+
+    // Prints the operator created at the location
     MessageCli.OPERATOR_CREATED.printMessage(operatorName, operatorId, locationFull);
   }
 
