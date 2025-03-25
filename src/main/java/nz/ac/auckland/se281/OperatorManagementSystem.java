@@ -10,14 +10,29 @@ public class OperatorManagementSystem {
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
 
+  public Boolean isOperatorValid(String operatorName, String location, Location locationFound) {
+    // Does not create operator if operatorName is invalid
+    if (operatorName.length() < 3) {
+      MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.printMessage(operatorName);
+      return false;
+    }
+
+    // Does not create operator if location is invalid
+    if (locationFound == null) {
+      MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
+      return false;
+    }
+
+    return true;
+  }
+
   public void searchOperators(String keyword) {
     // Goes through savedOperators counting how many of them include
     int operatorsFound = 0;
-    String foundOperator = "";
+    // String foundOperator = "";
     for (int i = 0; i < savedOperators.size(); i++) {
-      if (savedOperators.get(i).getSearchResult().contains(keyword)) {
+      if (keyword.equals("*")) {
         operatorsFound++;
-         foundOperator = savedOperators.get(i).getSearchResult();
       }
     }
 
@@ -27,11 +42,11 @@ public class OperatorManagementSystem {
     } else if (operatorsFound == 1) {
       // Prints for one operator
        MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
-       System.out.println(foundOperator);
+       System.out.println("* " + savedOperators.get(0).getName() + " ('" + savedOperators.get(0).getId() + "' located in '" 
+         + savedOperators.get(0).getLocationFull() + "')");
     } else {
       // Prints for two or more operators found
       MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(2), "s", ":");
-      System.out.println(foundOperator);
     }
   }
 
@@ -39,39 +54,14 @@ public class OperatorManagementSystem {
     // Returns the location from the Locatiom enum, otherwise null
     Location locationFound = Location.fromString(location);
 
-    // Does not create operator if operatorName is invalid
-    if (operatorName.length() < 3) {
-      MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.printMessage(operatorName);
-      return;
+    if (isOperatorValid(operatorName, location, locationFound) == true) {
+      // Creates an instance of the operator with its details
+      Operator operator = new Operator(operatorName, locationFound);
+      this.savedOperators.add(operator);
+
+      // Prints the name of the operator created and operator ID and the location
+      MessageCli.OPERATOR_CREATED.printMessage(operatorName, operator.getId(), operator.getLocationFull());
     }
-
-    // Does not create operator if location is invalid
-    if (locationFound == null) {
-      MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
-      return;
-    }
-
-    // Creates initials for the operatorName
-    String initials = "";
-    String[] words = operatorName.split(" ");
-    for (String word : words) { // Creates a string of the first letter in each word
-        initials = initials + word.charAt(0);
-    }
-    initials = initials.toUpperCase();
-
-    // Creates Operator ID
-    String locationAbbr = locationFound.getLocationAbbreviation();
-    String operatorNum = "001";
-    String operatorId = initials + "-" + locationAbbr + "-" + operatorNum;
-
-    String locationFull = locationFound.getFullName();
-
-    // Creates an instance of the operator with its details
-    Operator operator = new Operator(operatorName, operatorId, locationFound);
-    this.savedOperators.add(operator);
-
-    // Prints the operator created at the location
-    MessageCli.OPERATOR_CREATED.printMessage(operatorName, operatorId, locationFull);
   }
 
   public void viewActivities(String operatorId) {
