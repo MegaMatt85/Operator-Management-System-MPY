@@ -22,6 +22,15 @@ public class OperatorManagementSystem {
       MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
       return false;
     }
+
+    // Does not create operator if an operator with the same name already exists at the same location
+    for (Operator operator : savedOperators) {
+      if (operator.getName().equals(operatorName) && operator.getLocation().getLocationAbbreviation().equals(locationFound.getLocationAbbreviation())) {
+        MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(operatorName, locationFound.getFullName());
+        return false;
+      }
+    }
+
     // If operator is valid
     return true;
   }
@@ -29,7 +38,6 @@ public class OperatorManagementSystem {
   public void searchOperators(String keyword) {
     // Goes through savedOperators counting how many of them include
     ArrayList<Integer> operatorsFound = new ArrayList<Integer>();
-    // String foundOperator = "";
     for (int i = 0; i < savedOperators.size(); i++) {
       if (keyword.equals("*")) {
         operatorsFound.add(i);
@@ -44,7 +52,7 @@ public class OperatorManagementSystem {
        MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
        System.out.println("* " + savedOperators.get(operatorsFound.get(0)).getName() + " ('" 
         + savedOperators.get(operatorsFound.get(0)).getId() + "' located in '" 
-        + savedOperators.get(operatorsFound.get(0)).getLocationFull() + "')"); // TO BE UPDATED
+        + savedOperators.get(operatorsFound.get(0)).getLocation().getFullName() + "')"); // TO BE UPDATED
     } else {
       // Prints for two or more operators found
       MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(2), "s", ":");
@@ -61,7 +69,7 @@ public class OperatorManagementSystem {
       this.savedOperators.add(operator);
 
       // Prints the name of the operator created and operator ID and the location
-      MessageCli.OPERATOR_CREATED.printMessage(operatorName, operator.getId(), operator.getLocationFull());
+      MessageCli.OPERATOR_CREATED.printMessage(operatorName, operator.getId(), operator.getLocation().getFullName());
     }
   }
 

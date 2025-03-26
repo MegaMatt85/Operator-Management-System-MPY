@@ -38,7 +38,7 @@ public class Operator {
     return this.id;
   }
 
-  public String getLocationFull() {
-    return this.location.getFullName();
+  public Location getLocation() {
+    return this.location;
   }
 }
