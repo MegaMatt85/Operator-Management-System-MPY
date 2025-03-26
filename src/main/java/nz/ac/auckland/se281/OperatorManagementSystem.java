@@ -133,8 +133,8 @@ public class OperatorManagementSystem {
 
     // Does not create operator if an operator with the same name already exists at the same location
     for (Operator operator : savedOperators) {
-      if (operator.getName().equals(operatorName) 
-        && operator.getLocation().getLocationAbbreviation().equals(locationFound.getLocationAbbreviation())) {
+      if (operator.getName().equalsIgnoreCase(operatorName) 
+        && operator.getLocation().getLocationAbbreviation().equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
           MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(operatorName, locationFound.getFullName());
           return false;
       }
