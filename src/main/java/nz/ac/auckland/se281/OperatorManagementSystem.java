@@ -14,13 +14,15 @@ public class OperatorManagementSystem {
     // Array of indexes for each operator found
     ArrayList<Integer> operatorsFound = new ArrayList<Integer>();
 
+    keyword = keyword.toLowerCase();
+
     // Loops through savedOperators, storing the index of which operators have been found
     for (int i = 0; i < savedOperators.size(); i++) {
       // Strings for the current operator's name, english location, te reo location, and abbreviated locaiton
-      String operatorName = savedOperators.get(i).getName();
-      String operatorLocationEng = savedOperators.get(i).getLocation().getNameEnglish();
-      String operatorLocationTeReo = savedOperators.get(i).getLocation().getNameTeReo();
-      String operatorLocationAbbr = savedOperators.get(i).getLocation().getLocationAbbreviation();
+      String operatorName = savedOperators.get(i).getName().toLowerCase();
+      String operatorLocationEng = savedOperators.get(i).getLocation().getNameEnglish().toLowerCase();
+      String operatorLocationTeReo = savedOperators.get(i).getLocation().getNameTeReo().toLowerCase();
+      String operatorLocationAbbr = savedOperators.get(i).getLocation().getLocationAbbreviation().toLowerCase();
 
       // Checks if any of the strings contain the keyword or if the keyword is "*"
       if (keyword.equals("*") || operatorName.contains(keyword) || operatorLocationEng.contains(keyword)
