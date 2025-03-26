@@ -18,11 +18,13 @@ public class OperatorManagementSystem {
 
     // Loops through savedOperators, storing the index of which operators have been found
     for (int i = 0; i < savedOperators.size(); i++) {
+      Operator currentOperator = savedOperators.get(i);
+
       // Strings for the current operator's name, english location, te reo location, and abbreviated locaiton
-      String operatorName = savedOperators.get(i).getName().toLowerCase();
-      String operatorLocationEng = savedOperators.get(i).getLocation().getNameEnglish().toLowerCase();
-      String operatorLocationTeReo = savedOperators.get(i).getLocation().getNameTeReo().toLowerCase();
-      String operatorLocationAbbr = savedOperators.get(i).getLocation().getLocationAbbreviation().toLowerCase();
+      String operatorName = currentOperator.getName().toLowerCase();
+      String operatorLocationEng = currentOperator.getLocation().getNameEnglish().toLowerCase();
+      String operatorLocationTeReo = currentOperator.getLocation().getNameTeReo().toLowerCase();
+      String operatorLocationAbbr = currentOperator.getLocation().getLocationAbbreviation().toLowerCase();
 
       // Checks if any of the strings contain the keyword or if the keyword is "*"
       if (keyword.equals("*") || operatorName.contains(keyword) || operatorLocationEng.contains(keyword)
@@ -65,8 +67,16 @@ public class OperatorManagementSystem {
 
     // Checks if the operator is valid to be created
     if (isOperatorValid(operatorName, location, locationFound) == true) {
+      // Creates the operator's 3-digit number
+      int operatorNum = 1;
+      for (Operator operator : savedOperators) {
+        if (operator.getLocation().getLocationAbbreviation().equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
+          operatorNum++;
+        }
+      }
+      
       // Creates an instance of the operator with its details
-      Operator operator = new Operator(operatorName, locationFound);
+      Operator operator = new Operator(operatorName, locationFound, operatorNum);
       this.savedOperators.add(operator);
 
       // Prints the name of the operator created and operator ID and the location

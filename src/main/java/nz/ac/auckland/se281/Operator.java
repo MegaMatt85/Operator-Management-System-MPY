@@ -6,12 +6,13 @@ public class Operator {
   
   private String name;
   private Location location;
+  private int operatorNum;
   private String id;
-  // private String searchResult;
 
-  public Operator(String name, Location location) {
+  public Operator(String name, Location location, int operatorNum) {
     this.name = name;
     this.location = location;
+    this.operatorNum = operatorNum;
     this.id = createId();
   }
 
@@ -26,7 +27,11 @@ public class Operator {
 
     // Creates Operator ID string
     String locationAbbr = this.location.getLocationAbbreviation();
-    String operatorNum = "001"; // Change later
+
+    // Turns operatorNum into the 3-digit number using leading 0s
+    String operatorNum = "00" + Integer.toString(this.operatorNum);
+    operatorNum = operatorNum.substring(operatorNum.length()-3);
+
     return initials + "-" + locationAbbr + "-" + operatorNum;
   }
 
