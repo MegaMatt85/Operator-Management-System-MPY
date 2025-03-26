@@ -17,7 +17,7 @@ import org.junit.runners.Suite.SuiteClasses;
   MainTest.Task1.class,
   // MainTest.Task2.class,
   // MainTest.Task3.class,
-  // MainTest.YourTests.class, // Uncomment this line to run your own tests
+  MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
 public class MainTest {
 
@@ -119,6 +119,8 @@ public class MainTest {
       assertContains(
           "* West Auckland Camel Treks ('WACT-AKL-001' located in 'Auckland | Tāmaki"
               + " Makaurau')");
+              // * West Auckland Camel Treks ('WACT-AKL-001' located in 'Auckland | Tāmaki" + " Makaurau')
+              // * West Auckland Camel Treks ('WACT-AKL-001' located in 'Auckland | T?maki Makaurau ')
       assertDoesNotContain("Operator not created", true);
       assertDoesNotContain("There are", true);
     }
@@ -967,7 +969,95 @@ public class MainTest {
     public void reset() {}
 
     @Test
-    public void T4_01_add_your_own_tests_as_needed() throws Exception {}
+    public void Matt_01_create_operator_id_initials_uppercase() throws Exception {
+      runCommands(CREATE_OPERATOR, "'the biggest ever'", "'AKL'", EXIT);
+      
+      assertContains("TBE");
+      assertDoesNotContain("Operator not created", true);
+      assertDoesNotContain("There is", true);
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_02_create_operator_invalid_operator_name() throws Exception {
+      runCommands(CREATE_OPERATOR, "'ma'", "'Wellington'", EXIT);
+
+      assertContains("Operator not created: 'ma' is not a valid operator name.");
+      assertDoesNotContain("Successfully created operator", true);
+    }
+
+    @Test
+    public void Matt_03_create_operator_invalid_location_full_name_english() throws Exception {
+      runCommands(CREATE_OPERATOR, "'Parliament Bungee Jump'", "'Palmerston North'", EXIT);
+
+      assertContains("Operator not created: 'Palmerston North' is an invalid location.");
+      assertDoesNotContain("Successfully created operator", true);
+      assertDoesNotContain("There is", true);
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_04_create_operator_invalid_location_full_name_teo_reo() throws Exception {
+      runCommands(CREATE_OPERATOR, "'Parliament Bungee Jump'", "'Te matt'", EXIT);
+
+      assertContains("Operator not created: 'Te matt' is an invalid location.");
+      assertDoesNotContain("Successfully created operator", true);
+      assertDoesNotContain("There is", true);
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_05_create_operator_saved() throws Exception {
+      runCommands(CREATE_OPERATOR, "'the biggest ever'", "'AKL'", SEARCH_OPERATORS, "*", EXIT);
+      
+      assertContains("TBE");
+      assertDoesNotContain("Operator not created", true);
+      //assertDoesNotContain("There is", true);
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_06_create_operator_2_operators() throws Exception {
+      runCommands(
+          CREATE_OPERATOR,
+          "'West Auckland Camel Treks'",
+          "'AKL'", //
+          CREATE_OPERATOR,
+          "'West Auckland bananana'",
+          "'AKL'", //
+          SEARCH_OPERATORS,
+          "akl" //
+          );
+
+      assertContains("There are 2 matching operators found:");
+      //assertDoesNotContain("002", true);
+      //assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_07_search_operator_contains_keyword() throws Exception {
+      runCommands(CREATE_OPERATOR, "'the biggest ever'", "'AKL'", SEARCH_OPERATORS, "AkL", EXIT);
+      
+      assertContains("TBE");
+      assertContains("operator found");
+      assertDoesNotContain("Operator not created", true);
+      //assertDoesNotContain("There is", true);
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_08_create_operator_same_location() throws Exception {
+      runCommands(CREATE_OPERATOR, "'the real'", "'AKL'",CREATE_OPERATOR, "'the real'"
+        , "'AKL'", SEARCH_OPERATORS, "AkL", EXIT);
+      
+      
+      assertContains("Operator not created");
+      assertContains("There is");
+      //assertContains("operators found");
+      //assertDoesNotContain("Operator not created", true);
+      //assertDoesNotContain("There is", true);
+      //assertDoesNotContain("There are", true);
+    }
   }
 
   private static final Object[] CREATE_14_OPERATORS =
