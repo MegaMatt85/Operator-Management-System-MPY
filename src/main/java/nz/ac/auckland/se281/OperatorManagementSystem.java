@@ -11,8 +11,8 @@ public class OperatorManagementSystem {
   public OperatorManagementSystem() {}
 
   public void searchOperators(String keyword) {
-    // Array of indexes for each operator found
-    ArrayList<Integer> operatorsFound = new ArrayList<Integer>();
+    // Array of indexes for each operator found in savedOperators
+    ArrayList<Integer> OperatorFoundIndexes = new ArrayList<Integer>();
 
     keyword = keyword.toLowerCase();
 
@@ -27,22 +27,35 @@ public class OperatorManagementSystem {
       // Checks if any of the strings contain the keyword or if the keyword is "*"
       if (keyword.equals("*") || operatorName.contains(keyword) || operatorLocationEng.contains(keyword)
         || operatorLocationTeReo.contains(keyword) || operatorLocationAbbr.contains(keyword)) {
-        operatorsFound.add(i);
+        OperatorFoundIndexes.add(i);
       }
     }
 
-    if (operatorsFound.size() == 0) { // Prints for no operators
+    if (OperatorFoundIndexes.size() == 0) { // Prints for no operators
       MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
 
-    } else if (operatorsFound.size() == 1) {// Prints for one operator
+    } else if (OperatorFoundIndexes.size() == 1) {// Prints for one operator
        MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
-       // Prints the operator and their location for every operator found
-       System.out.println("* " + savedOperators.get(operatorsFound.get(0)).getName() + " ('" 
-        + savedOperators.get(operatorsFound.get(0)).getId() + "' located in '" 
-        + savedOperators.get(operatorsFound.get(0)).getLocation().getFullName() + "')"); // TO BE UPDATED
+
+       // Reference to the one operator found
+       Operator OperatorFound = savedOperators.get(OperatorFoundIndexes.get(0));
+
+       // Prints the operator and their location
+       System.out.println("* " + OperatorFound.getName() + " ('" + OperatorFound.getId() 
+        + "' located in '" + OperatorFound.getLocation().getFullName() + "')");
 
     } else { // Prints for two or more operators found
-      MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(2), "s", ":");
+      MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(OperatorFoundIndexes.size()), "s", ":");
+      
+      // Prints the operator and their location for every operator found
+      for (int i = 0; i < OperatorFoundIndexes.size(); i++) {
+        // Reference to the current operator found
+        Operator OperatorFound = savedOperators.get(OperatorFoundIndexes.get(i));
+
+        // Prints the operator and their location
+        System.out.println("* " + OperatorFound.getName() + " ('" + OperatorFound.getId() + "' located in '" 
+        + OperatorFound.getLocation().getFullName() + "')");
+      }
     }
   }
 
