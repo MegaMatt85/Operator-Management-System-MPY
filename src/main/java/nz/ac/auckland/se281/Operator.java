@@ -21,7 +21,7 @@ public class Operator {
     String initials = "";
     String[] words = this.name.split(" "); // Creates an array for each word
     for (String word : words) { 
-        initials = initials + word.charAt(0); // Creates a string of the first letter in each word
+      initials = initials + word.charAt(0); // Creates a string of the first letter in each word
     }
     initials = initials.toUpperCase();
 
@@ -30,7 +30,7 @@ public class Operator {
 
     // Turns operatorNum into the 3-digit number using leading 0s
     String operatorNum = "00" + Integer.toString(this.operatorNum);
-    operatorNum = operatorNum.substring(operatorNum.length()-3);
+    operatorNum = operatorNum.substring(operatorNum.length() - 3);
 
     return initials + "-" + locationAbbr + "-" + operatorNum;
   }

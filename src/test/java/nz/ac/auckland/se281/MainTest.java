@@ -1058,6 +1058,16 @@ public class MainTest {
       //assertDoesNotContain("There is", true);
       //assertDoesNotContain("There are", true);
     }
+
+    @Test
+    public void Matt_08_create_operator_name_spaces() throws Exception {
+      runCommands(CREATE_OPERATOR, "'the Real         '", "'Auckland'", SEARCH_OPERATORS, "*", EXIT);
+      
+      assertContains("Successfully created operator 'the Real'");
+      assertDoesNotContain("Operator not created", true);
+      //assertDoesNotContain("There is", true);
+      assertDoesNotContain("There are", true);
+    }
   }
 
   private static final Object[] CREATE_14_OPERATORS =

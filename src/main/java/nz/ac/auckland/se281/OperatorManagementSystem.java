@@ -20,15 +20,16 @@ public class OperatorManagementSystem {
     for (int i = 0; i < savedOperators.size(); i++) {
       Operator currentOperator = savedOperators.get(i);
 
-      // Strings for the current operator's name, english location, te reo location, and abbreviated locaiton
+      // Strings for the current operator's name, and english, te reo, and abbr location
       String operatorName = currentOperator.getName().toLowerCase();
       String operatorLocationEng = currentOperator.getLocation().getNameEnglish().toLowerCase();
       String operatorLocationTeReo = currentOperator.getLocation().getNameTeReo().toLowerCase();
       String operatorLocationAbbr = currentOperator.getLocation().getLocationAbbreviation().toLowerCase();
 
       // Checks if any of the strings contain the keyword or if the keyword is "*"
-      if (keyword.equals("*") || operatorName.contains(keyword) || operatorLocationEng.contains(keyword)
-        || operatorLocationTeReo.contains(keyword) || operatorLocationAbbr.contains(keyword)) {
+      if (keyword.equals("*") || operatorName.contains(keyword) 
+        || operatorLocationEng.contains(keyword) || operatorLocationTeReo.contains(keyword) 
+        || operatorLocationAbbr.contains(keyword)) {
         operatorFoundIndexes.add(i);
       }
     }
@@ -36,27 +37,28 @@ public class OperatorManagementSystem {
     if (operatorFoundIndexes.size() == 0) { // Prints for no operators
       MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
 
-    } else if (operatorFoundIndexes.size() == 1) {// Prints for one operator
-       MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
+    } else if (operatorFoundIndexes.size() == 1) { // Prints for one operator
+      MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
 
-       // Reference to the one operator found
-       Operator OperatorFound = savedOperators.get(operatorFoundIndexes.get(0));
+      // Reference to the one operator found
+      Operator operatorFound = savedOperators.get(operatorFoundIndexes.get(0));
 
-       // Prints the operator and their location
-       System.out.println("* " + OperatorFound.getName() + " ('" + OperatorFound.getId() 
-        + "' located in '" + OperatorFound.getLocation().getFullName() + "')");
+      // Prints the operator and their location
+      System.out.println("* " + operatorFound.getName() + " ('" + operatorFound.getId() 
+        + "' located in '" + operatorFound.getLocation().getFullName() + "')");
 
-    } else { // Prints for two or more operators found
-      MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(operatorFoundIndexes.size()), "s", ":");
+    } else { // Prints for the total number of operators found if there are two or more
+      MessageCli.OPERATORS_FOUND.printMessage("are",
+        Integer.toString(operatorFoundIndexes.size()), "s", ":");
       
       // Prints the operator and their location for every operator found
       for (int i = 0; i < operatorFoundIndexes.size(); i++) {
         // Reference to the current operator found
-        Operator OperatorFound = savedOperators.get(operatorFoundIndexes.get(i));
+        Operator operatorFound = savedOperators.get(operatorFoundIndexes.get(i));
 
         // Prints the operator and their location
-        System.out.println("* " + OperatorFound.getName() + " ('" + OperatorFound.getId() + "' located in '" 
-        + OperatorFound.getLocation().getFullName() + "')");
+        System.out.println("* " + operatorFound.getName() + " ('" + operatorFound.getId() 
+          + "' located in '" + operatorFound.getLocation().getFullName() + "')");
       }
     }
   }
@@ -72,7 +74,8 @@ public class OperatorManagementSystem {
       // Creates the operator's 3-digit number
       int operatorNum = 1;
       for (Operator operator : savedOperators) {
-        if (operator.getLocation().getLocationAbbreviation().equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
+        String currentLocation = operator.getLocation().getLocationAbbreviation();
+        if (currentLocation.equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
           operatorNum++;
         }
       }
@@ -82,7 +85,8 @@ public class OperatorManagementSystem {
       this.savedOperators.add(operator);
 
       // Prints the name of the operator created and operator ID and the location
-      MessageCli.OPERATOR_CREATED.printMessage(operatorName, operator.getId(), operator.getLocation().getFullName());
+      MessageCli.OPERATOR_CREATED.printMessage(operatorName, operator.getId()
+        , operator.getLocation().getFullName());
     }
   }
 
@@ -130,25 +134,28 @@ public class OperatorManagementSystem {
     // TODO implement
   }
 
+  // Prevents operator creation for invalid cases
   public Boolean isOperatorValid(String operatorName, String location, Location locationFound) {
-    // Does not create operator if operatorName is invalid
+    // If operatorName is less than 3 characters
     if (operatorName.length() < 3) {
       MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.printMessage(operatorName);
       return false;
     }
 
-    // Does not create operator if location is invalid
+    // If the location does not exist
     if (locationFound == null) {
       MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
       return false;
     }
 
-    // Does not create operator if an operator with the same name already exists at the same location
+    // If an operator with the same name already exists at the same location
     for (Operator operator : savedOperators) {
-      if (operator.getName().equalsIgnoreCase(operatorName) 
-        && operator.getLocation().getLocationAbbreviation().equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
-          MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(operatorName, locationFound.getFullName());
-          return false;
+      String currentName = operator.getName();
+      String currentLocation = operator.getLocation().getLocationAbbreviation();
+      if (currentName.equalsIgnoreCase(operatorName) 
+        && currentLocation.equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
+        MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(operatorName, locationFound.getFullName());
+        return false;
       }
     }
 
