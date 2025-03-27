@@ -12,9 +12,9 @@ public class OperatorManagementSystem {
 
   public void searchOperators(String keyword) {
     // Array of indexes for each operator found in savedOperators
-    ArrayList<Integer> OperatorFoundIndexes = new ArrayList<Integer>();
+    ArrayList<Integer> operatorFoundIndexes = new ArrayList<Integer>();
 
-    keyword = keyword.toLowerCase();
+    keyword = keyword.toLowerCase().trim();
 
     // Loops through savedOperators, storing the index of which operators have been found
     for (int i = 0; i < savedOperators.size(); i++) {
@@ -29,30 +29,30 @@ public class OperatorManagementSystem {
       // Checks if any of the strings contain the keyword or if the keyword is "*"
       if (keyword.equals("*") || operatorName.contains(keyword) || operatorLocationEng.contains(keyword)
         || operatorLocationTeReo.contains(keyword) || operatorLocationAbbr.contains(keyword)) {
-        OperatorFoundIndexes.add(i);
+        operatorFoundIndexes.add(i);
       }
     }
 
-    if (OperatorFoundIndexes.size() == 0) { // Prints for no operators
+    if (operatorFoundIndexes.size() == 0) { // Prints for no operators
       MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
 
-    } else if (OperatorFoundIndexes.size() == 1) {// Prints for one operator
+    } else if (operatorFoundIndexes.size() == 1) {// Prints for one operator
        MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
 
        // Reference to the one operator found
-       Operator OperatorFound = savedOperators.get(OperatorFoundIndexes.get(0));
+       Operator OperatorFound = savedOperators.get(operatorFoundIndexes.get(0));
 
        // Prints the operator and their location
        System.out.println("* " + OperatorFound.getName() + " ('" + OperatorFound.getId() 
         + "' located in '" + OperatorFound.getLocation().getFullName() + "')");
 
     } else { // Prints for two or more operators found
-      MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(OperatorFoundIndexes.size()), "s", ":");
+      MessageCli.OPERATORS_FOUND.printMessage("are", Integer.toString(operatorFoundIndexes.size()), "s", ":");
       
       // Prints the operator and their location for every operator found
-      for (int i = 0; i < OperatorFoundIndexes.size(); i++) {
+      for (int i = 0; i < operatorFoundIndexes.size(); i++) {
         // Reference to the current operator found
-        Operator OperatorFound = savedOperators.get(OperatorFoundIndexes.get(i));
+        Operator OperatorFound = savedOperators.get(operatorFoundIndexes.get(i));
 
         // Prints the operator and their location
         System.out.println("* " + OperatorFound.getName() + " ('" + OperatorFound.getId() + "' located in '" 
@@ -64,6 +64,8 @@ public class OperatorManagementSystem {
   public void createOperator(String operatorName, String location) {
     // Returns the location from the Locatiom enum, otherwise null
     Location locationFound = Location.fromString(location);
+
+    operatorName = operatorName.trim();
 
     // Checks if the operator is valid to be created
     if (isOperatorValid(operatorName, location, locationFound) == true) {
