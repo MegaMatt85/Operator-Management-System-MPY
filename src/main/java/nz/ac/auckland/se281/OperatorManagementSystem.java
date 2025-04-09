@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281;
 
+import nz.ac.auckland.se281.Types.ActivityType;
 import nz.ac.auckland.se281.Types.Location;
 import java.util.ArrayList;
 
@@ -19,13 +20,11 @@ public class OperatorManagementSystem {
     // Loops through savedOperators, storing the index of which operators have been found
     for (int i = 0; i < savedOperators.size(); i++) {
       Operator currentOperator = savedOperators.get(i);
-
       // Strings for the current operator's name, and english, te reo, and abbr location
       String operatorName = currentOperator.getName().toLowerCase();
       String operatorLocationEng = currentOperator.getLocation().getNameEnglish().toLowerCase();
       String operatorLocationTeReo = currentOperator.getLocation().getNameTeReo().toLowerCase();
       String operatorLocationAbbr = currentOperator.getLocation().getLocationAbbreviation().toLowerCase();
-
       // Checks if any of the strings contain the keyword or if the keyword is "*"
       if (keyword.equals("*") || operatorName.contains(keyword) 
         || operatorLocationEng.contains(keyword) || operatorLocationTeReo.contains(keyword) 
@@ -39,10 +38,8 @@ public class OperatorManagementSystem {
 
     } else if (operatorFoundIndexes.size() == 1) { // Prints for one operator
       MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
-
       // Reference to the one operator found
       Operator operatorFound = savedOperators.get(operatorFoundIndexes.get(0));
-
       // Prints the operator and their location
       System.out.println("* " + operatorFound.getName() + " ('" + operatorFound.getId() 
         + "' located in '" + operatorFound.getLocation().getFullName() + "')");
@@ -50,12 +47,10 @@ public class OperatorManagementSystem {
     } else { // Prints for the total number of operators found if there are two or more
       MessageCli.OPERATORS_FOUND.printMessage("are",
         Integer.toString(operatorFoundIndexes.size()), "s", ":");
-      
       // Prints the operator and their location for every operator found
       for (int i = 0; i < operatorFoundIndexes.size(); i++) {
         // Reference to the current operator found
         Operator operatorFound = savedOperators.get(operatorFoundIndexes.get(i));
-
         // Prints the operator and their location
         System.out.println("* " + operatorFound.getName() + " ('" + operatorFound.getId() 
           + "' located in '" + operatorFound.getLocation().getFullName() + "')");
@@ -69,7 +64,7 @@ public class OperatorManagementSystem {
 
     operatorName = operatorName.trim();
 
-    // Checks if the operator is valid to be created
+    // Checks if the operator to be created is valid
     if (isOperatorValid(operatorName, location, locationFound) == true) {
       // Creates the operator's 3-digit number
       int operatorNum = 1;
@@ -95,7 +90,33 @@ public class OperatorManagementSystem {
   }
 
   public void createActivity(String activityName, String activityType, String operatorId) {
-    // TODO implement
+    /* 
+     * Activity name: >= 3 characters
+     * will not test for same name
+     * Activity type: available types in enum, user can type in upper or lower case
+     * if invalid activity type: default value should be OTHER
+     * Operator ID: from operator
+     * msg: "Successfully created activity 'Bethells Beach Camel Trek' ('WACT-AKL-001-001': 'Adventure') for 'West Auckland Camel Treks'." 
+     * Activity ID: "<OPERATOR_ID>-<THREE_DIGIT_NUMBER>", no. for each new activity for same operator
+     */
+     
+     // Convert activityType to activityType enum type
+     ActivityType type = ActivityType.fromString(activityType.trim());
+
+     // Continues to create the activity only if the entered details are valid
+     if (isActivityValid(activityName, type, operatorId) == true) {
+      // 3-digit number representing the activity number under the same operator
+      int activityNum = 1;
+      
+      // Represents this activity's operator
+      Operator operator = getOperatorFromId(operatorId);
+
+      Activity activity = new Activity(activityName, operatorId, activityNum, type, operator);
+      
+      // Prints the activity name, activity ID, activity type, and activity operator for successful creation
+      MessageCli.ACTIVITY_CREATED.printMessage(activity.getName(), activity.getActivityId(),
+       activity.getActivityType().toString(), activity.getOperator().getName());
+     }
   }
 
   public void searchActivities(String keyword) {
@@ -161,5 +182,24 @@ public class OperatorManagementSystem {
 
     // If operator is valid
     return true;
+  }
+
+  public Boolean isActivityValid(String activityName, ActivityType type, String operatorId) {
+    // If activity name < 3 characters
+
+    // If operator ID does not exist
+    return true;
+  }
+
+  // Returns the operator represented by the given ID
+  public Operator getOperatorFromId(String operatorId) {
+    for (Operator operator : this.savedOperators) {
+      if (operator.getId().contains(operatorId)) {
+        return operator;
+      }
+    }
+
+    // If no operator is found for the given ID
+    return null;
   }
 }
