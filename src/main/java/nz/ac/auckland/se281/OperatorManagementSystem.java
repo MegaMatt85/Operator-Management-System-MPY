@@ -184,10 +184,21 @@ public class OperatorManagementSystem {
     return true;
   }
 
+  // Checks that the activity to be created is valid
   public Boolean isActivityValid(String activityName, ActivityType type, String operatorId) {
-    // If activity name < 3 characters
+    // Invalid if activity name < 3 characters
+    if (activityName.length() < 3) {
+      MessageCli.ACTIVITY_NOT_CREATED_INVALID_ACTIVITY_NAME.printMessage(activityName);
+      return false;
+    }
 
     // If operator ID does not exist
+    Operator operator = getOperatorFromId(operatorId);
+    if (operator == null) {
+      MessageCli.ACTIVITY_NOT_CREATED_INVALID_OPERATOR_ID.printMessage(operatorId);
+      return false;
+    }
+
     return true;
   }
 
