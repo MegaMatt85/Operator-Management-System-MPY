@@ -176,28 +176,43 @@ public class OperatorManagementSystem {
      * - operator location can be te reo Māori, English, or abbreviation
      */
 
-    keyword = keyword.toLowerCase();
+    keyword = keyword.toLowerCase().trim();
 
     ArrayList<Activity> activitiesFound = new ArrayList<>();
     ArrayList<String> searchList = new ArrayList<>();
 
-    // Loop through every activity and check if they contain keyword
-    for (Activity activity : this.savedActivities) {
-      // Add all strings which could contain the keyword to searchList
-      Location operatorLocation = activity.getOperator().getLocation();
-      searchList.add(activity.getName().toLowerCase());
-      searchList.add(activity.getActivityType().toString().toLowerCase());
-      searchList.add(operatorLocation.getNameEnglish().toLowerCase());
-      searchList.add(operatorLocation.getNameTeReo().toLowerCase());
-      searchList.add(operatorLocation.getLocationAbbreviation().toLowerCase());
+    // Adds every activity to be printed
+    if (keyword.equals("*")) {
+      activitiesFound.addAll(this.savedActivities);
 
-      // Check if the keyword is in searchList or is "*"
-      if (searchList.contains(keyword) || keyword.equals("*")) {
-        activitiesFound.add(activity);
+    } else {
+      // Initialises strings to search through
+      String name;
+      String type;
+      String locationEng;
+      String locationTeReo;
+      String locationAbbr;
+      
+      // Loops through every activity and check if they contain keyword
+      for (Activity activity : this.savedActivities) {
+        // Add all strings which could contain the keyword to searchList
+        Location operatorLocation = activity.getOperator().getLocation();
+        name = activity.getName().toLowerCase();
+        type = activity.getActivityType().toString().toLowerCase();
+        locationEng = operatorLocation.getNameEnglish().toLowerCase();
+        locationTeReo = operatorLocation.getNameTeReo().toLowerCase();
+        locationAbbr = operatorLocation.getLocationAbbreviation().toLowerCase();
+
+        // Check if the keyword is in any of the strings
+        if (name.contains(keyword) || type.contains(keyword) 
+        || locationEng.contains(keyword) || locationTeReo.contains(keyword)
+        || locationAbbr.contains(keyword)) {
+          activitiesFound.add(activity);
+        }
+
+        // Clears searchList for the next activity
+        searchList.clear();
       }
-
-      // Clears searchList for the next activity
-      searchList.clear();
     }
 
     if (activitiesFound.isEmpty()) { // Prints for no activities found
