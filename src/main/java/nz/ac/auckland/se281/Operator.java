@@ -46,4 +46,9 @@ public class Operator {
   public Location getLocation() {
     return this.location;
   }
+
+  public void printOperator() {
+    System.out.println("* " + name + " ('" + id 
+        + "' located in '" + location.getFullName() + "')");
+  }
 }

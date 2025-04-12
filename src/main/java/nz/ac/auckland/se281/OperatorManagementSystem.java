@@ -42,8 +42,7 @@ public class OperatorManagementSystem {
       // Reference to the one operator found
       Operator operatorFound = savedOperators.get(operatorFoundIndexes.get(0));
       // Prints the operator and their location
-      System.out.println("* " + operatorFound.getName() + " ('" + operatorFound.getId() 
-        + "' located in '" + operatorFound.getLocation().getFullName() + "')");
+      operatorFound.printOperator();
 
     } else { // Prints for the total number of operators found if there are two or more
       MessageCli.OPERATORS_FOUND.printMessage("are",
@@ -53,8 +52,7 @@ public class OperatorManagementSystem {
         // Reference to the current operator found
         Operator operatorFound = savedOperators.get(operatorFoundIndexes.get(i));
         // Prints the operator and their location
-        System.out.println("* " + operatorFound.getName() + " ('" + operatorFound.getId() 
-          + "' located in '" + operatorFound.getLocation().getFullName() + "')");
+        operatorFound.printOperator();
       }
     }
   }
