@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class OperatorManagementSystem {
 
-  private ArrayList<Operator> savedOperators = new ArrayList<Operator>();
+  private ArrayList<Operator> savedOperators = new ArrayList<>();
+  private ArrayList<Activity> savedActivities = new ArrayList<>();
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
@@ -86,7 +87,56 @@ public class OperatorManagementSystem {
   }
 
   public void viewActivities(String operatorId) {
-    // TODO implement
+    /*
+     * Views all activities for the specified operator ID
+     * 1. check that opID exists
+     * 2. count how many activities found with the opID and index them (save activities 1st)
+     * 3.
+     * - output for no activities found for given operator
+     * - output for 1 activity found for given operator
+     * - output for 2 activities found for given operator
+     */
+
+    // Check that the given operatorID exists
+    Boolean operatorFound = false;
+    for (Operator operator : this.savedOperators) {
+      if (operator.getId().equals(operatorId)) {
+        operatorFound = true;
+        break;
+      }
+    }
+
+    // Prints error message if no operator found
+    if (operatorFound == false) {
+      MessageCli.OPERATOR_NOT_FOUND.printMessage(operatorId);
+      return;
+    }
+
+    // Save the indexes of each activity found with the given operator ID
+    ArrayList<Integer> activitiesFoundIndexes = new ArrayList<>();
+    for (Activity activity : this.savedActivities) {
+      if (activity.getOperatorId().equals(operatorId)) {
+        activitiesFoundIndexes.add(this.savedActivities.indexOf(activity));
+      }
+    }
+
+    if (activitiesFoundIndexes.size() == 0) { // Prints for no activites found
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", "no", "ies", ".");
+
+    } else if (activitiesFoundIndexes.size() == 1) { // Prints for 1 activity found
+      MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
+      Activity activityFound = this.savedActivities.get(activitiesFoundIndexes.get(0));
+      // Prints the found activity
+      activityFound.printActivity();
+
+    } else { // Prints 2 or more activities found
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", Integer.toString(activitiesFoundIndexes.size()), "ies", ":");
+      // Prints every activity found
+      for (int i = 0; i < activitiesFoundIndexes.size(); i++) {
+        Activity activityFound = this.savedActivities.get(activitiesFoundIndexes.get(i));
+        activityFound.printActivity();
+      }
+    }
   }
 
   public void createActivity(String activityName, String activityType, String operatorId) {
@@ -95,9 +145,10 @@ public class OperatorManagementSystem {
      * will not test for same name
      * Activity type: available types in enum, user can type in upper or lower case
      * if invalid activity type: default value should be OTHER
-     * Operator ID: from operator
+     * Operator ID: from operator, must be valid
      * msg: "Successfully created activity 'Bethells Beach Camel Trek' ('WACT-AKL-001-001': 'Adventure') for 'West Auckland Camel Treks'." 
      * Activity ID: "<OPERATOR_ID>-<THREE_DIGIT_NUMBER>", no. for each new activity for same operator
+     * go through all activities, sum the ones with the same operator to get "000"
      */
      
      // Convert activityType to activityType enum type
@@ -112,6 +163,8 @@ public class OperatorManagementSystem {
       Operator operator = getOperatorFromId(operatorId);
 
       Activity activity = new Activity(activityName, operatorId, activityNum, type, operator);
+
+      this.savedActivities.add(activity);
       
       // Prints the activity name, activity ID, activity type, and activity operator for successful creation
       MessageCli.ACTIVITY_CREATED.printMessage(activity.getName(), activity.getActivityId(),

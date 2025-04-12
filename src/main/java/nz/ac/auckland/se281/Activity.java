@@ -38,7 +38,11 @@ public class Activity {
     return this.operator;
   }
 
-  public String createActivityId() {
+  public String createActivityId() { // to be changed
     return this.operatorId + "-001";
+  }
+
+  public void printActivity() {
+    System.out.println("* " + name + ": [" + activityId + "/" + type + "] offered by " + operator.getName());
   }
 }
