@@ -169,8 +169,53 @@ public class OperatorManagementSystem {
 
   public void searchActivities(String keyword) {
     /*
-     * Searches for activities - keyword in name, type, or operator location
+     * Searches for activities - keyword in name, type, or operator location (case-insensitive)
+     * 1. Check for invalid input ?????
+     * 2. check if "*" is inputted -> print all activitites
+     * 3. Check for name, type, or operator location (case-insensitive) - can be substring -> print found
+     * - operator location can be te reo Māori, English, or abbreviation
      */
+
+    keyword = keyword.toLowerCase();
+
+    ArrayList<Activity> activitiesFound = new ArrayList<>();
+    ArrayList<String> searchList = new ArrayList<>();
+
+    // Loop through every activity and check if they contain keyword
+    for (Activity activity : this.savedActivities) {
+      // Add all strings which could contain the keyword to searchList
+      Location operatorLocation = activity.getOperator().getLocation();
+      searchList.add(activity.getName().toLowerCase());
+      searchList.add(activity.getActivityType().toString().toLowerCase());
+      searchList.add(operatorLocation.getNameEnglish().toLowerCase());
+      searchList.add(operatorLocation.getNameTeReo().toLowerCase());
+      searchList.add(operatorLocation.getLocationAbbreviation().toLowerCase());
+
+      // Check if the keyword is in searchList or is "*"
+      if (searchList.contains(keyword) || keyword.equals("*")) {
+        activitiesFound.add(activity);
+      }
+
+      // Clears searchList for the next activity
+      searchList.clear();
+    }
+
+    if (activitiesFound.isEmpty()) { // Prints for no activities found
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", "no", "ies", ".");
+
+    } else if (activitiesFound.size() == 1) { // Prints for one activity found
+      MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
+      Activity activityFound = activitiesFound.get(0);
+      // Prints the found activity
+      activityFound.printActivity();
+
+    } else { // Prints for 2 or more activities found
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", Integer.toString(activitiesFound.size()), "ies", ":");
+      // Prints every activity found
+      for (Activity activityFound : activitiesFound) {
+        activityFound.printActivity();
+      }
+    }
   }
 
   public void addPublicReview(String activityId, String[] options) {
