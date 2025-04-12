@@ -154,8 +154,13 @@ public class OperatorManagementSystem {
 
      // Continues to create the activity only if the entered details are valid
      if (isActivityValid(activityName, type, operatorId) == true) {
-      // 3-digit number representing the activity number under the same operator
+      // Creates the 3-digit number representing the activity number under the same operator
       int activityNum = 1;
+      for (Activity activity : this.savedActivities) {
+        if (activity.getOperatorId().equals(operatorId)) {
+          activityNum++;
+        }
+      }
       
       // Represents this activity's operator
       Operator operator = getOperatorFromId(operatorId);

@@ -6,6 +6,7 @@ public class Activity {
 
   private String name;
   private String operatorId;
+  private int activityNum;
   private String activityId;
   private ActivityType type;
   private Operator operator;
@@ -13,6 +14,7 @@ public class Activity {
   public Activity(String name, String operatorId, int activityNum, ActivityType type, Operator operator) {
     this.name = name;
     this.operatorId = operatorId;
+    this.activityNum = activityNum;
     this.activityId = createActivityId();
     this.type = type;
     this.operator = operator;
@@ -38,8 +40,11 @@ public class Activity {
     return this.operator;
   }
 
-  public String createActivityId() { // to be changed
-    return this.operatorId + "-001";
+  public String createActivityId() {
+    // Turns activityNum into the 3-digit number using/removing leading 0s
+    String activityNum = "00" + Integer.toString(this.activityNum);
+    activityNum = activityNum.substring(activityNum.length() - 3);
+    return this.operatorId + "-" + activityNum;
   }
 
   public void printActivity() {
