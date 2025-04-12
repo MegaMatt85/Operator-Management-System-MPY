@@ -96,16 +96,8 @@ public class OperatorManagementSystem {
      */
 
     // Check that the given operatorID exists
-    Boolean operatorFound = false;
-    for (Operator operator : this.savedOperators) {
-      if (operator.getId().equals(operatorId)) {
-        operatorFound = true;
-        break;
-      }
-    }
-
-    // Prints error message if no operator found
-    if (operatorFound == false) {
+    if (getOperatorFromId(operatorId) == null) {
+      // Prints error message if no operator found
       MessageCli.OPERATOR_NOT_FOUND.printMessage(operatorId);
       return;
     }
@@ -176,7 +168,9 @@ public class OperatorManagementSystem {
   }
 
   public void searchActivities(String keyword) {
-    // TODO implement
+    /*
+     * Searches for activities - keyword in name, type, or operator location
+     */
   }
 
   public void addPublicReview(String activityId, String[] options) {
