@@ -260,8 +260,9 @@ public class OperatorManagementSystem {
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
 
     } else {
-      // Create review
+      // Create review and save it to the respective activity
       PublicReview review = new PublicReview(options, activity);
+      activity.addReview(review);
 
       // Print success message
       review.printSuccess();
@@ -298,8 +299,9 @@ public class OperatorManagementSystem {
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
 
     } else {
-      // Create review
+      // Create review and save it to the respective activity
       PrivateReview review = new PrivateReview(options, activity);
+      activity.addReview(review);
 
       // Print success message
       review.printSuccess();
@@ -325,7 +327,19 @@ public class OperatorManagementSystem {
      */
 
      // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
-  }
+     Activity activity = getActivityFromId(activityId);
+     if (activity == null) {
+       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+ 
+     } else {
+       // Create review and save it to the respective activity
+       ExpertReview review = new ExpertReview(options, activity);
+       activity.addReview(review);
+ 
+       // Print success message
+       review.printSuccess();
+     }
+    }
   /*
    * Review parent class:
    * - reviewer's name

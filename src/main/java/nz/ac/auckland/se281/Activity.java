@@ -1,5 +1,7 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+
 import nz.ac.auckland.se281.Types.ActivityType;
 
 public class Activity {
@@ -10,6 +12,7 @@ public class Activity {
   private String activityId;
   private ActivityType type;
   private Operator operator;
+  private ArrayList<Review> reviews = new ArrayList<>();
 
   public Activity(String name, String operatorId, int activityNum, ActivityType type, Operator operator) {
     this.name = name;
@@ -40,6 +43,10 @@ public class Activity {
     return this.operator;
   }
 
+  public ArrayList<Review> getReviews() {
+    return this.reviews;
+  }
+
   public String createActivityId() {
     // Turns activityNum into the 3-digit number using/removing leading 0s
     String activityNum = "00" + Integer.toString(this.activityNum);
@@ -49,5 +56,10 @@ public class Activity {
 
   public void printActivity() {
     System.out.println("* " + name + ": [" + activityId + "/" + type + "] offered by " + operator.getName());
+  }
+
+  // Adds review to this particular activities reviews
+  public void addReview(Review review) {
+    this.reviews.add(review);
   }
 }

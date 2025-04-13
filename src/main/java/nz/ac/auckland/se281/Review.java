@@ -10,7 +10,8 @@ public abstract class Review {
 
   Review(Activity activity) {
     this.activity = activity;
-    this.reviewNum = 1;
+    int previousNum = activity.getReviews().size();
+    this.reviewNum = previousNum + 1;
     this.reviewId = activity.getActivityId() + "-R" + Integer.toString(this.reviewNum);
   }
 
