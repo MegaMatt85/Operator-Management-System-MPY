@@ -4,10 +4,19 @@ public abstract class Review {
   protected String name;
   protected int rating;
   protected String comment;
+  protected Activity activity;
 
-  Review(String name, String[] options) {
-    this.name = name;
-    this.rating = 4;
-    this.comment = "real";
+  Review(Activity activity) {
+    this.activity = activity;
   }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public int getRating() {
+    return this.rating;
+  }
+
+  public abstract void printSuccess();
 }

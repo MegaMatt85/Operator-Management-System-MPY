@@ -261,8 +261,10 @@ public class OperatorManagementSystem {
 
     } else {
       // Create review
-      PublicReview review = new PublicReview(activityId, options);
-      MessageCli.REVIEW_ADDED.printMessage("Public", "1", activity.getName());
+      PublicReview review = new PublicReview(options, activity);
+
+      // Print success message
+      review.printSuccess();
     }
 
   }
