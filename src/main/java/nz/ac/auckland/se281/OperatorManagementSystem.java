@@ -256,9 +256,13 @@ public class OperatorManagementSystem {
 
     // Check that the activity ID matches an existing one
     Activity activity = getActivityFromId(activityId);
-
     if (activity == null) {
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+
+    } else {
+      // Create review
+      PublicReview review = new PublicReview(activityId, options);
+      MessageCli.REVIEW_ADDED.printMessage("Public", "1", activity.getName());
     }
 
   }
