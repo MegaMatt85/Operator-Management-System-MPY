@@ -25,6 +25,6 @@ public class PublicReview extends Review {
   @Override
   public void printSuccess() {
     MessageCli.REVIEW_ADDED.printMessage("Public", 
-        Integer.toString(super.rating), super.activity.getName());
+        super.reviewId, super.activity.getName());
   }
 }

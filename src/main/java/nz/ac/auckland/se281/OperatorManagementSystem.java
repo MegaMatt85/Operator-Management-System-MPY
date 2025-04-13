@@ -291,6 +291,19 @@ public class OperatorManagementSystem {
      */
 
      // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
+
+     // Check that the activity ID matches an existing one
+    Activity activity = getActivityFromId(activityId);
+    if (activity == null) {
+      MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+
+    } else {
+      // Create review
+      PrivateReview review = new PrivateReview(options, activity);
+
+      // Print success message
+      review.printSuccess();
+    }
   }
 
   public void addExpertReview(String activityId, String[] options) {
