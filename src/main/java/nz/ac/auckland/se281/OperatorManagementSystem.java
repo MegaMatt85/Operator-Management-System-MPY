@@ -192,7 +192,7 @@ public class OperatorManagementSystem {
       String locationEng;
       String locationTeReo;
       String locationAbbr;
-      
+
       // Loops through every activity and check if they contain keyword
       for (Activity activity : this.savedActivities) {
         // Add all strings which could contain the keyword to searchList
@@ -205,8 +205,8 @@ public class OperatorManagementSystem {
 
         // Check if the keyword is in any of the strings
         if (name.contains(keyword) || type.contains(keyword) 
-        || locationEng.contains(keyword) || locationTeReo.contains(keyword)
-        || locationAbbr.contains(keyword)) {
+          || locationEng.contains(keyword) || locationTeReo.contains(keyword)
+          || locationAbbr.contains(keyword)) {
           activitiesFound.add(activity);
         }
 
@@ -234,16 +234,86 @@ public class OperatorManagementSystem {
   }
 
   public void addPublicReview(String activityId, String[] options) {
-    // TODO implement
+    /*
+     * Public reviews are visible to everyone, added by customers who have experienced activity
+     * include: reviwer's name, rating, comments = included in options array
+     * Rating must be rounded to be 1-5
+     * anonymous: "y" or "n" exactly
+     * can endorse public reviews, becomes marked when displayed
+     * # any review should be added to the system tied to a particular activity #
+     * -> error message if activity ID invalid
+     * -> success message: ...
+     * # review ID added: "<ACTIVITY_ID>-R<REVIEW_NUMBER>", starts at 1, +1 for each new review for same activity #
+     */
+    /*
+     * public review subclass:
+     * - anonymous
+     * - methods
+     * - getters
+    */
+
+    // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
+
+    // Check that the activity ID matches an existing one
+    Activity activity = getActivityFromId(activityId);
+
+    if (activity == null) {
+      MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+    }
+
   }
 
   public void addPrivateReview(String activityId, String[] options) {
-    // TODO implement
+    /*
+     * Private reviews are only visible to operator, for customers who have experienced - feedback to operator
+     * include: reviewer's name, email, rating, comments = included in options array
+     * Rating must be rounded to be 1-5
+     * customer can request follow up response otherwise marked as resolved
+     * if response requested, response should be printed
+     * if response not made yet: "Need to email 'felicia@email.com' for follow-up."
+     * # any review should be added to the system tied to a particular activity #
+     * -> error message if activity ID invalid
+     * -> success message: ...
+     * # review ID added: "<ACTIVITY_ID>-R<REVIEW_NUMBER>", starts at 1, +1 for each new review for same activity #
+     */
+    /*
+     * private review subclass:
+     * - email
+     * - response requested
+     * - methods
+     * - getters
+     */
+
+     // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
   }
 
   public void addExpertReview(String activityId, String[] options) {
-    // TODO implement
+    /*
+     * Expert reviews are added by experts in the field, visible to everyone
+     * include: reviewer's name, rating, comments, reccomend activity or not = included in options array
+     * Rating must be rounded to be 1-5
+     * can also upload images
+     * # any review should be added to the system tied to a particular activity #
+     * -> error message if activity ID invalid
+     * -> success message: ...
+     * # review ID added: "<ACTIVITY_ID>-R<REVIEW_NUMBER>", starts at 1, +1 for each new review for same activity #
+     */
+    /*
+     * expert review subclass:
+     * - reccomend/not reccomend
+     * - methods
+     * - getters
+     */
+
+     // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
   }
+  /*
+   * Review parent class:
+   * - reviewer's name
+   * - rating
+   * - comments
+   * - getters
+   */
 
   public void displayReviews(String activityId) {
     // TODO implement
@@ -312,7 +382,7 @@ public class OperatorManagementSystem {
     return true;
   }
 
-  // Returns the operator represented by the given ID
+  // Returns the operator represented by the given operator ID
   public Operator getOperatorFromId(String operatorId) {
     for (Operator operator : this.savedOperators) {
       if (operator.getId().contains(operatorId)) {
@@ -321,6 +391,18 @@ public class OperatorManagementSystem {
     }
 
     // If no operator is found for the given ID
+    return null;
+  }
+
+  // Returns the activity represented by the given activity ID
+  public Activity getActivityFromId(String activityId) {
+    for (Activity activity : this.savedActivities) {
+      if (activity.getActivityId().equals(activityId)) {
+        return activity;
+      }
+    }
+
+    // If no activity is found for the given ID
     return null;
   }
 }
