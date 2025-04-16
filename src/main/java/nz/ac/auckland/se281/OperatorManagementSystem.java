@@ -358,7 +358,32 @@ public class OperatorManagementSystem {
      * - # All reviews should have: rating, review type, review ID, name/anon, comments # 
      */
 
-    
+    // Check that the activity ID matches an existing one
+    Activity activity = getActivityFromId(activityId);
+    if (activity == null) {
+      // Error message for if the activity does not exist
+      MessageCli.ACTIVITY_NOT_FOUND.printMessage(activityId);
+
+    } else {
+      // Get all the reviews from the activity
+      ArrayList<Review> reviews = activity.getReviews();
+
+      if (reviews.size() == 0) {
+        // Print for no reviews found
+        MessageCli.REVIEWS_FOUND.printMessage("are", "no", "s", activity.getName());
+
+      } else if (reviews.size() == 1) {
+        // Print for 1 review found
+        MessageCli.REVIEWS_FOUND.printMessage("is", "1", "", activity.getName());
+        //print review
+
+      } else {
+        // Print for 2 or more reviews found
+        MessageCli.REVIEWS_FOUND.printMessage("are", "2+", "s", activity.getName());
+        // print reviews
+
+      }
+    }
   }
 
   public void endorseReview(String reviewId) {
