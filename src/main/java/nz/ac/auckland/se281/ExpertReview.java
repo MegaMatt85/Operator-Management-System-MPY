@@ -32,13 +32,17 @@ public class ExpertReview extends Review {
   public void printReview() {
     String rating = Integer.toString(super.rating);
 
-    System.out.println("* [" + rating + "/5] Expert review (" + super.reviewId 
-      + ") by '" + super.name + "'");
-    System.out.println("\"" + super.comment + "\"");
+    MessageCli.REVIEW_ENTRY_HEADER.printMessage(rating, "5", "Expert", super.reviewId, super.name);
+    MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(super.comment);
+
+    // System.out.println("* [" + rating + "/5] Expert review (" + super.reviewId 
+    //   + ") by '" + super.name + "'");
+    // System.out.println("\"" + super.comment + "\"");
     
     // Prints reccomended if reccomended
     if (this.reccomend) {
-      System.out.println("Recommended by experts.");
+      MessageCli.REVIEW_ENTRY_RECOMMENDED.printMessage();
+      //System.out.println("Recommended by experts.");
     }
   }
 }

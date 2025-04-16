@@ -43,13 +43,16 @@ public class PublicReview extends Review {
       name = "Anonymous";
     }
 
-    System.out.println("* [" + rating + "/5] Public review (" + super.reviewId 
-      + ") by '" + name + "'");
-    System.out.println("\"" + super.comment + "\"");
+    MessageCli.REVIEW_ENTRY_HEADER.printMessage(rating, "5", "Public", super.reviewId, name);
+    MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(super.comment);
+
+    // System.out.println("* [" + rating + "/5] Public review (" + super.reviewId 
+    //   + ") by '" + name + "'");
+    // System.out.println("\"" + super.comment + "\"");
 
     // Print endorsement id endorsed
     if (this.endorsed) {
-      System.out.println("Endorsed by admin.");
+      MessageCli.REVIEW_ENTRY_ENDORSED.printMessage();
     }
   }
 }
