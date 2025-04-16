@@ -485,17 +485,15 @@ public class OperatorManagementSystem {
       Activity topActivity = null;
       // Goes through the activity's reviews if it is in the current location
       for (Activity activity : this.savedActivities) {
-        // int averageRating = 0;
-        // int count;
         if (activity.getOperator().getLocation().equals(location)) {
-          // // Updates the top activity for the current location if its average rating is higher
-          // for (Review review : activity.getReviews()) {
-          //   averageRating += review.getRating();
-          // }
-          if (activity.getReviews().size() > 0) {
+          // Updates the top activity for the current location if its average rating is higher
+          if ((topActivity == null) && (activity.getReviews().size() > 0)) {
+            topActivity = activity;
+          } else if ((topActivity != null) && 
+            (activity.getAverageRating() > topActivity.getAverageRating())) {
             topActivity = activity;
           }
-        }
+        }  
       }
 
       // Prints the top activity if it exists and prints no reviewed activities otherwise
@@ -503,7 +501,7 @@ public class OperatorManagementSystem {
         MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.getFullName());
       } else {
          MessageCli.TOP_ACTIVITY.printMessage(location.getFullName(), topActivity.getName()
-           , Integer.toString(/*topActivity.getReviews().get(0).getRating()*/3));
+           , Integer.toString(topActivity.getAverageRating()));//CHANGE
       }
     }
   }

@@ -13,6 +13,7 @@ public class Activity {
   private ActivityType type;
   private Operator operator;
   private ArrayList<Review> reviews = new ArrayList<>();
+  private int sumRatings = 0;
 
   public Activity(String name, String operatorId, int activityNum, ActivityType type, Operator operator) {
     this.name = name;
@@ -47,6 +48,13 @@ public class Activity {
     return this.reviews;
   }
 
+  public int getAverageRating() {
+    if (reviews.size() != 0) {
+      return this.sumRatings / this.reviews.size();
+    }
+    return 0; // Change?
+  }
+
   public String createActivityId() {
     // Turns activityNum into the 3-digit number using/removing leading 0s
     String activityNum = "00" + Integer.toString(this.activityNum);
@@ -61,5 +69,6 @@ public class Activity {
   // Adds review to this particular activities reviews
   public void addReview(Review review) {
     this.reviews.add(review);
+    this.sumRatings += review.getRating();
   }
 }
