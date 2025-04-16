@@ -45,11 +45,7 @@ public class PublicReview extends Review {
 
     MessageCli.REVIEW_ENTRY_HEADER.printMessage(rating, "5", "Public", super.reviewId, name);
     MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(super.comment);
-
-    // System.out.println("* [" + rating + "/5] Public review (" + super.reviewId 
-    //   + ") by '" + name + "'");
-    // System.out.println("\"" + super.comment + "\"");
-
+    
     // Print endorsement id endorsed
     if (this.endorsed) {
       MessageCli.REVIEW_ENTRY_ENDORSED.printMessage();
