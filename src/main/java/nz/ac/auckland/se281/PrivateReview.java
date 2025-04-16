@@ -3,6 +3,7 @@ package nz.ac.auckland.se281;
 public class PrivateReview extends Review {
   String email;
   Boolean response;
+  String resolutionMessage = "-";
 
   PrivateReview(String[] options, Activity activity) {
     super(activity);
@@ -22,6 +23,10 @@ public class PrivateReview extends Review {
     } else {
       this.response = false;
     }
+  }
+
+  public void resolve(String response) {
+    this.resolutionMessage = response;
   }
 
   @Override
@@ -44,7 +49,7 @@ public class PrivateReview extends Review {
     if (this.response) {
       MessageCli.REVIEW_ENTRY_FOLLOW_UP.printMessage(this.email);
     } else {
-      MessageCli.REVIEW_ENTRY_RESOLVED.printMessage("-");
+      MessageCli.REVIEW_ENTRY_RESOLVED.printMessage(this.resolutionMessage);
     }
     
     // System.out.println("* [" + rating + "/5] Private review (" + super.reviewId 

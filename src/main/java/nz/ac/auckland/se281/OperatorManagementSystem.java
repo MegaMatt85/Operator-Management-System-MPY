@@ -391,7 +391,7 @@ public class OperatorManagementSystem {
 
   public void endorseReview(String reviewId) {
     /*
-     * Can endorse public reviews
+     * Can endorse public reviews only
      * 1. Check for invalid input -> print error message (invalid review ID)
      * 2. Check if not a public review (instanceof PublicReview)
      * 3. Endorse message -> success message
@@ -418,7 +418,31 @@ public class OperatorManagementSystem {
   }
 
   public void resolveReview(String reviewId, String response) {
-    // TODO implement
+    /*
+     * Can resolve private reviews only
+     * 1. Check that the reviewId is valid -> error message (invalid review ID)
+     * 2. Check that the review is a private review -> error messaage (not private review)
+     * 3. resolve message -> success message
+     * 4. resolution message should show when review is printed
+     */
+    
+    // Check if the review ID matches an existing private review
+    Review review = getReviewFromId(reviewId);
+    if (review == null) {
+      // Prints error message if review ID is invalid
+      MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+
+    } else if (review instanceof PrivateReview) {
+      PrivateReview reviewPrivate = (PrivateReview) review;
+      // Changes print message to include resolution message
+      reviewPrivate.resolve(response);
+      // Prints success message for resolving the review
+      MessageCli.REVIEW_RESOLVED.printMessage(reviewId);
+
+    } else {
+      // Prints error message if the review found is not a private review
+      MessageCli.REVIEW_NOT_RESOLVED.printMessage(reviewId);
+    }
   }
 
   public void uploadReviewImage(String reviewId, String imageName) {
