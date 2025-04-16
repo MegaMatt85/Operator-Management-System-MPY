@@ -471,7 +471,20 @@ public class OperatorManagementSystem {
   }
 
   public void displayTopActivities() {
-    // TODO implement
+    /*
+     * Displays the top activities for each location
+     * == For each location ==
+     * 1. Print header for the location
+     * - if none: print no reviewed activities for location, same if no activities
+     * 2. Print top activity for the location (highest rating)
+     * - Does not matter if there are ties in the rating
+    */
+
+    // Finds top activities (if any) for each location
+    for (Location location : Location.values()) {
+      MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.getFullName());
+      //MessageCli.TOP_ACTIVITY
+    }
   }
 
   // Prevents operator creation for invalid cases
