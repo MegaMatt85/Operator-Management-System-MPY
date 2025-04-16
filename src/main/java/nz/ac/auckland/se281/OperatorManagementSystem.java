@@ -326,30 +326,39 @@ public class OperatorManagementSystem {
      * - getters
      */
 
-     // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
-     Activity activity = getActivityFromId(activityId);
-     if (activity == null) {
-       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
- 
-     } else {
-       // Create review and save it to the respective activity
-       ExpertReview review = new ExpertReview(options, activity);
-       activity.addReview(review);
- 
-       // Print success message
-       review.printSuccess();
-     }
+    // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
+    
+    // Check that the activity ID matches an existing one
+    Activity activity = getActivityFromId(activityId);
+    if (activity == null) {
+      MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+
+    } else {
+      // Create review and save it to the respective activity
+      ExpertReview review = new ExpertReview(options, activity);
+      activity.addReview(review);
+
+      // Print success message
+      review.printSuccess();
     }
-  /*
-   * Review parent class:
-   * - reviewer's name
-   * - rating
-   * - comments
-   * - getters
-   */
+  }
 
   public void displayReviews(String activityId) {
-    // TODO implement
+    /*
+     * Displays all reviews for a given activity ID
+     * 1. invalid ID should print error message
+     * 2. Count how many reviews there are for the activity
+     * - print for 0 reviews 'for activity_name'
+     * - print for 1 review 'for activity_name'
+     * - print for 2 or more reviews 'for activity_name'
+     * 3. print the individual reviews (order does not matter)
+     * - Public: 'Anonymous' or '<name>', endorsed?
+     * - Private: follow-up? (need to email) or resolved?
+     * - Expert: reccomended by experts or not?
+     * - # All reviews should have: rating, review type, review ID, name/anon, comments # 
+     */
+
+    
   }
 
   public void endorseReview(String reviewId) {
