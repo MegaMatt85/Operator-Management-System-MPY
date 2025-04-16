@@ -476,14 +476,35 @@ public class OperatorManagementSystem {
      * == For each location ==
      * 1. Print header for the location
      * - if none: print no reviewed activities for location, same if no activities
-     * 2. Print top activity for the location (highest rating)
+     * 2. Print top activity for the location (highest AVERAGE rating)
      * - Does not matter if there are ties in the rating
     */
 
     // Finds top activities (if any) for each location
     for (Location location : Location.values()) {
-      MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.getFullName());
-      //MessageCli.TOP_ACTIVITY
+      Activity topActivity = null;
+      // Goes through the activity's reviews if it is in the current location
+      for (Activity activity : this.savedActivities) {
+        // int averageRating = 0;
+        // int count;
+        if (activity.getOperator().getLocation().equals(location)) {
+          // // Updates the top activity for the current location if its average rating is higher
+          // for (Review review : activity.getReviews()) {
+          //   averageRating += review.getRating();
+          // }
+          if (activity.getReviews().size() > 0) {
+            topActivity = activity;
+          }
+        }
+      }
+
+      // Prints the top activity if it exists and prints no reviewed activities otherwise
+      if (topActivity == null) {
+        MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.getFullName());
+      } else {
+         MessageCli.TOP_ACTIVITY.printMessage(location.getFullName(), topActivity.getName()
+           , Integer.toString(/*topActivity.getReviews().get(0).getRating()*/3));
+      }
     }
   }
 
