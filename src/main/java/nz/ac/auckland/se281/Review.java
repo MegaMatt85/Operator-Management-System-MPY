@@ -23,6 +23,10 @@ public abstract class Review {
     return this.rating;
   }
 
+  public String getReviewId() {
+    	return this.reviewId;
+  }
+
   public abstract void printSuccess();
 
   public abstract void printReview();

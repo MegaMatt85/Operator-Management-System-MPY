@@ -375,26 +375,46 @@ public class OperatorManagementSystem {
       } else if (reviews.size() == 1) {
         // Print for 1 review found
         MessageCli.REVIEWS_FOUND.printMessage("is", "1", "", activity.getName());
-        
         reviews.get(0).printReview();
 
       } else {
         String reviewCount = Integer.toString(reviews.size());
-
         // Print for 2 or more reviews found
         MessageCli.REVIEWS_FOUND.printMessage("are", reviewCount, "s", activity.getName());
-        
         // Print the individual reviews for every review
         for (Review review : reviews) {
           review.printReview();
         }
-
       }
     }
   }
 
   public void endorseReview(String reviewId) {
-    // TODO implement
+    /*
+     * Can endorse public reviews
+     * 1. Check for invalid input -> print error message (invalid review ID)
+     * 2. Check if not a public review (instanceof PublicReview)
+     * 3. Endorse message -> success message
+     * 4. Review should be marked as endorsed when printed
+     */
+
+    // Check if the review ID matches an existing public review
+    Review review = getReviewFromId(reviewId);
+    if (review == null) {
+      // Prints error message if review ID is invalid
+      MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+
+    } else if (review instanceof PublicReview) {
+      PublicReview reviewPublic = (PublicReview) review;
+      // Changes print message to include endorsement
+      reviewPublic.endorse();
+      // Prints success message for endorsing the review
+      MessageCli.REVIEW_ENDORSED.printMessage(reviewId);
+
+    } else {
+      // Prints error message if the review found is not a public review
+      MessageCli.REVIEW_NOT_ENDORSED.printMessage(reviewId);
+    }
   }
 
   public void resolveReview(String reviewId, String response) {
@@ -477,6 +497,20 @@ public class OperatorManagementSystem {
     }
 
     // If no activity is found for the given ID
+    return null;
+  }
+
+  // Returns the review represented by the given review ID
+  public Review getReviewFromId(String reviewId) {
+    for (Activity activity : this.savedActivities) {
+      for (Review review : activity.getReviews()) {
+        if (review.getReviewId().equals(reviewId)) {
+          return review;
+        }
+      }
+    }
+
+    // If no review is found for the given Id
     return null;
   }
 }

@@ -2,6 +2,7 @@ package nz.ac.auckland.se281;
 
 public class PublicReview extends Review {
   Boolean anonymous;
+  Boolean endorsed = false;
 
   PublicReview(String[] options, Activity activity) {
     super(activity);
@@ -20,6 +21,10 @@ public class PublicReview extends Review {
     } else if (this.rating > 5) {
       super.rating = 5;
     }
+  }
+
+  public void endorse() {
+    endorsed = true;
   }
 
   @Override
@@ -42,6 +47,9 @@ public class PublicReview extends Review {
       + ") by '" + name + "'");
     System.out.println("\"" + super.comment + "\"");
 
-    // Print endorsement
+    // Print endorsement id endorsed
+    if (this.endorsed) {
+      System.out.println("Endorsed by admin.");
+    }
   }
 }
