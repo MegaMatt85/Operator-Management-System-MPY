@@ -375,12 +375,19 @@ public class OperatorManagementSystem {
       } else if (reviews.size() == 1) {
         // Print for 1 review found
         MessageCli.REVIEWS_FOUND.printMessage("is", "1", "", activity.getName());
+        
         reviews.get(0).printReview();
 
       } else {
+        String reviewCount = Integer.toString(reviews.size());
+
         // Print for 2 or more reviews found
-        MessageCli.REVIEWS_FOUND.printMessage("are", "2+", "s", activity.getName());
-        // print reviews
+        MessageCli.REVIEWS_FOUND.printMessage("are", reviewCount, "s", activity.getName());
+        
+        // Print the individual reviews for every review
+        for (Review review : reviews) {
+          review.printReview();
+        }
 
       }
     }
