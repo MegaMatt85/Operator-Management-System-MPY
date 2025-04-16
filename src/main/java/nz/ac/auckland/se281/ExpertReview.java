@@ -1,9 +1,10 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+
 public class ExpertReview extends Review {
   Boolean reccomend;
-  Boolean imageUploaded = false;
-  String image;
+  ArrayList<String> images = new ArrayList<>();
 
   ExpertReview(String[] options, Activity activity) {
     super(activity);
@@ -25,8 +26,7 @@ public class ExpertReview extends Review {
   }
 
   public void addImage(String imageName) {
-    this.image = imageName;
-    this.imageUploaded = true;
+    this.images.add(imageName);
   }
 
   @Override
@@ -47,8 +47,14 @@ public class ExpertReview extends Review {
       MessageCli.REVIEW_ENTRY_RECOMMENDED.printMessage();
     }
 
-    if (imageUploaded) {
-      MessageCli.REVIEW_ENTRY_IMAGES.printMessage(image);
+    // Prints the images added to this review if any added
+    if (this.images.size() > 0) {
+      // Make a single string of all images
+      String imageList = this.images.get(0);
+      for (int i = 1; i < this.images.size(); i++) {
+        imageList += "," + this.images.get(i);
+      }
+      MessageCli.REVIEW_ENTRY_IMAGES.printMessage(imageList);
     }
   }
 }
