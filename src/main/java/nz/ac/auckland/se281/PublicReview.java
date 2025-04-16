@@ -27,4 +27,21 @@ public class PublicReview extends Review {
     MessageCli.REVIEW_ADDED.printMessage("Public", 
         super.reviewId, super.activity.getName());
   }
+
+  @Override
+  public void printReview() {
+    String rating = Integer.toString(super.rating);
+    String name = super.name;
+
+    // Mark the displayed name as anonymous if anonymous
+    if (this.anonymous) {
+      name = "Anonymous";
+    }
+
+    System.out.println("* [" + rating + "/5] Public review (" + super.reviewId 
+      + ") by '" + name + "'");
+    System.out.println("\"" + super.comment + "\"");
+
+    // Print endorsement
+  }
 }

@@ -27,4 +27,18 @@ public class ExpertReview extends Review {
     MessageCli.REVIEW_ADDED.printMessage("Expert", 
     super.reviewId, super.activity.getName());
   }
+
+  @Override
+  public void printReview() {
+    String rating = Integer.toString(super.rating);
+
+    System.out.println("* [" + rating + "/5] Expert review (" + super.reviewId 
+      + ") by '" + super.name + "'");
+    System.out.println("\"" + super.comment + "\"");
+    
+    // Prints reccomended if reccomended
+    if (this.reccomend) {
+      System.out.println("Recommended by experts.");
+    }
+  }
 }

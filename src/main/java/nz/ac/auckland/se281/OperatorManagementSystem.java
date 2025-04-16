@@ -375,7 +375,7 @@ public class OperatorManagementSystem {
       } else if (reviews.size() == 1) {
         // Print for 1 review found
         MessageCli.REVIEWS_FOUND.printMessage("is", "1", "", activity.getName());
-        //print review
+        reviews.get(0).printReview();
 
       } else {
         // Print for 2 or more reviews found

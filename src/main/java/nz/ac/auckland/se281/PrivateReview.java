@@ -29,4 +29,21 @@ public class PrivateReview extends Review {
     MessageCli.REVIEW_ADDED.printMessage("Private", 
     super.reviewId, super.activity.getName());
   }
+
+  @Override
+  public void printReview() {
+    String rating = Integer.toString(super.rating);
+    String followUp = "Need to email '" + this.email + "' for follow-up.";
+
+    // Changes the follow up message to resolved if no response requested
+    if (!this.response) {
+      followUp = "Resolved: \"-\""; // to be changed?
+    }
+
+    System.out.println("* [" + rating + "/5] Private review (" + super.reviewId 
+      + ") by '" + super.name + "'");
+    System.out.println("\"" + super.comment + "\"");
+    System.out.println(followUp);
+
+  }
 }
