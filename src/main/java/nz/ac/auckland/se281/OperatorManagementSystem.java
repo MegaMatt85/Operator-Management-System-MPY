@@ -458,6 +458,14 @@ public class OperatorManagementSystem {
     if (review == null) {
       // Prints error message if review ID is invalid
       MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+    } else if (review instanceof ExpertReview) {
+      ExpertReview reviewExpert = (ExpertReview) review;
+      // Changes the print message to include the image
+      reviewExpert.addImage(imageName);
+      MessageCli.REVIEW_IMAGE_ADDED.printMessage(imageName, reviewId);
+    } else {
+      // Prints error message if review found is not an expert review
+      MessageCli.REVIEW_IMAGE_NOT_ADDED_NOT_EXPERT.printMessage(reviewId);
     }
 
   }
