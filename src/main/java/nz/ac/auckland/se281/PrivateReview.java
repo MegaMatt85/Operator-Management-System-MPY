@@ -27,6 +27,7 @@ public class PrivateReview extends Review {
 
   public void resolve(String response) {
     this.resolutionMessage = response;
+    this.response = false;
   }
 
   @Override
