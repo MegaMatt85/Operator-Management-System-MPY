@@ -446,7 +446,20 @@ public class OperatorManagementSystem {
   }
 
   public void uploadReviewImage(String reviewId, String imageName) {
-    // TODO implement
+    /*
+     * Can uploaded images to Expert reviews only
+     * 1. Check that review ID inputted matches an existing review ID
+     * 2. Check that the review is an expert review
+     * 3. Add image, print success message (can add multiple images - string array)
+     */
+
+     // Check if the review ID matches an existing expert review
+    Review review = getReviewFromId(reviewId);
+    if (review == null) {
+      // Prints error message if review ID is invalid
+      MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+    }
+
   }
 
   public void displayTopActivities() {
