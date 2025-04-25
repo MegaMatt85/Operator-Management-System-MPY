@@ -85,16 +85,6 @@ public class OperatorManagementSystem {
   }
 
   public void viewActivities(String operatorId) {
-    /*
-     * Views all activities for the specified operator ID
-     * 1. check that opID exists
-     * 2. count how many activities found with the opID and index them (save activities 1st)
-     * 3.
-     * - output for no activities found for given operator
-     * - output for 1 activity found for given operator
-     * - output for 2 activities found for given operator
-     */
-
     // Check that the given operatorID exists
     if (getOperatorFromId(operatorId) == null) {
       // Prints error message if no operator found
@@ -102,45 +92,34 @@ public class OperatorManagementSystem {
       return;
     }
 
-    // Save the indexes of each activity found with the given operator ID
-    ArrayList<Integer> activitiesFoundIndexes = new ArrayList<>();
+    // Saves each activity found with the given operator ID
+    ArrayList<Activity> activitiesFound = new ArrayList<>();
     for (Activity activity : this.savedActivities) {
       if (activity.getOperatorId().equals(operatorId)) {
-        activitiesFoundIndexes.add(this.savedActivities.indexOf(activity));
+        activitiesFound.add(activity);
       }
     }
 
-    if (activitiesFoundIndexes.size() == 0) { // Prints for no activites found
+    if (activitiesFound.size() == 0) { // Prints for no activites found
       MessageCli.ACTIVITIES_FOUND.printMessage("are", "no", "ies", ".");
 
-    } else if (activitiesFoundIndexes.size() == 1) { // Prints for 1 activity found
+    } else if (activitiesFound.size() == 1) { // Prints for 1 activity found
       MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
-      Activity activityFound = this.savedActivities.get(activitiesFoundIndexes.get(0));
+      Activity activityFound = activitiesFound.get(0);
       // Prints the found activity
       activityFound.printActivity();
 
     } else { // Prints 2 or more activities found
-      MessageCli.ACTIVITIES_FOUND.printMessage("are", Integer.toString(activitiesFoundIndexes.size()), "ies", ":");
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", Integer.toString(activitiesFound.size()), "ies", ":");
       // Prints every activity found
-      for (int i = 0; i < activitiesFoundIndexes.size(); i++) {
-        Activity activityFound = this.savedActivities.get(activitiesFoundIndexes.get(i));
+      for (int i = 0; i < activitiesFound.size(); i++) {
+        Activity activityFound = activitiesFound.get(i);
         activityFound.printActivity();
       }
     }
   }
 
   public void createActivity(String activityName, String activityType, String operatorId) {
-    /* 
-     * Activity name: >= 3 characters
-     * will not test for same name
-     * Activity type: available types in enum, user can type in upper or lower case
-     * if invalid activity type: default value should be OTHER
-     * Operator ID: from operator, must be valid
-     * msg: "Successfully created activity 'Bethells Beach Camel Trek' ('WACT-AKL-001-001': 'Adventure') for 'West Auckland Camel Treks'." 
-     * Activity ID: "<OPERATOR_ID>-<THREE_DIGIT_NUMBER>", no. for each new activity for same operator
-     * go through all activities, sum the ones with the same operator to get "000"
-     */
-     
      // Convert activityType to activityType enum type
      ActivityType type = ActivityType.fromString(activityType.trim());
 
@@ -168,18 +147,10 @@ public class OperatorManagementSystem {
   }
 
   public void searchActivities(String keyword) {
-    /*
-     * Searches for activities - keyword in name, type, or operator location (case-insensitive)
-     * 1. Check for invalid input ?????
-     * 2. check if "*" is inputted -> print all activitites
-     * 3. Check for name, type, or operator location (case-insensitive) - can be substring -> print found
-     * - operator location can be te reo Māori, English, or abbreviation
-     */
 
     keyword = keyword.toLowerCase().trim();
 
     ArrayList<Activity> activitiesFound = new ArrayList<>();
-    ArrayList<String> searchList = new ArrayList<>();
 
     // Adds every activity to be printed
     if (keyword.equals("*")) {
@@ -209,9 +180,6 @@ public class OperatorManagementSystem {
           || locationAbbr.contains(keyword)) {
           activitiesFound.add(activity);
         }
-
-        // Clears searchList for the next activity
-        searchList.clear();
       }
     }
 
@@ -234,26 +202,6 @@ public class OperatorManagementSystem {
   }
 
   public void addPublicReview(String activityId, String[] options) {
-    /*
-     * Public reviews are visible to everyone, added by customers who have experienced activity
-     * include: reviwer's name, rating, comments = included in options array
-     * Rating must be rounded to be 1-5
-     * anonymous: "y" or "n" exactly
-     * can endorse public reviews, becomes marked when displayed
-     * # any review should be added to the system tied to a particular activity #
-     * -> error message if activity ID invalid
-     * -> success message: ...
-     * # review ID added: "<ACTIVITY_ID>-R<REVIEW_NUMBER>", starts at 1, +1 for each new review for same activity #
-     */
-    /*
-     * public review subclass:
-     * - anonymous
-     * - methods
-     * - getters
-    */
-
-    // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
-
     // Check that the activity ID matches an existing one
     Activity activity = getActivityFromId(activityId);
     if (activity == null) {
@@ -271,28 +219,6 @@ public class OperatorManagementSystem {
   }
 
   public void addPrivateReview(String activityId, String[] options) {
-    /*
-     * Private reviews are only visible to operator, for customers who have experienced - feedback to operator
-     * include: reviewer's name, email, rating, comments = included in options array
-     * Rating must be rounded to be 1-5
-     * customer can request follow up response otherwise marked as resolved
-     * if response requested, response should be printed
-     * if response not made yet: "Need to email 'felicia@email.com' for follow-up."
-     * # any review should be added to the system tied to a particular activity #
-     * -> error message if activity ID invalid
-     * -> success message: ...
-     * # review ID added: "<ACTIVITY_ID>-R<REVIEW_NUMBER>", starts at 1, +1 for each new review for same activity #
-     */
-    /*
-     * private review subclass:
-     * - email
-     * - response requested
-     * - methods
-     * - getters
-     */
-
-     // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
-
      // Check that the activity ID matches an existing one
     Activity activity = getActivityFromId(activityId);
     if (activity == null) {
@@ -309,25 +235,6 @@ public class OperatorManagementSystem {
   }
 
   public void addExpertReview(String activityId, String[] options) {
-    /*
-     * Expert reviews are added by experts in the field, visible to everyone
-     * include: reviewer's name, rating, comments, reccomend activity or not = included in options array
-     * Rating must be rounded to be 1-5
-     * can also upload images
-     * # any review should be added to the system tied to a particular activity #
-     * -> error message if activity ID invalid
-     * -> success message: ...
-     * # review ID added: "<ACTIVITY_ID>-R<REVIEW_NUMBER>", starts at 1, +1 for each new review for same activity #
-     */
-    /*
-     * expert review subclass:
-     * - reccomend/not reccomend
-     * - methods
-     * - getters
-     */
-
-    // 1. Check activity exists, 2. Create review (Sort out stuff inside review), 3. Add to activity
-    
     // Check that the activity ID matches an existing one
     Activity activity = getActivityFromId(activityId);
     if (activity == null) {
@@ -344,20 +251,6 @@ public class OperatorManagementSystem {
   }
 
   public void displayReviews(String activityId) {
-    /*
-     * Displays all reviews for a given activity ID
-     * 1. invalid ID should print error message
-     * 2. Count how many reviews there are for the activity
-     * - print for 0 reviews 'for activity_name'
-     * - print for 1 review 'for activity_name'
-     * - print for 2 or more reviews 'for activity_name'
-     * 3. print the individual reviews (order does not matter)
-     * - Public: 'Anonymous' or '<name>', endorsed?
-     * - Private: follow-up? (need to email) or resolved?
-     * - Expert: reccomended by experts or not?
-     * - # All reviews should have: rating, review type, review ID, name/anon, comments # 
-     */
-
     // Check that the activity ID matches an existing one
     Activity activity = getActivityFromId(activityId);
     if (activity == null) {
@@ -390,14 +283,6 @@ public class OperatorManagementSystem {
   }
 
   public void endorseReview(String reviewId) {
-    /*
-     * Can endorse public reviews only
-     * 1. Check for invalid input -> print error message (invalid review ID)
-     * 2. Check if not a public review (instanceof PublicReview)
-     * 3. Endorse message -> success message
-     * 4. Review should be marked as endorsed when printed
-     */
-
     // Check if the review ID matches an existing public review
     Review review = getReviewFromId(reviewId);
     if (review == null) {
@@ -418,14 +303,6 @@ public class OperatorManagementSystem {
   }
 
   public void resolveReview(String reviewId, String response) {
-    /*
-     * Can resolve private reviews only
-     * 1. Check that the reviewId is valid -> error message (invalid review ID)
-     * 2. Check that the review is a private review -> error messaage (not private review)
-     * 3. resolve message -> success message
-     * 4. resolution message should show when review is printed
-     */
-    
     // Check if the review ID matches an existing private review
     Review review = getReviewFromId(reviewId);
     if (review == null) {
@@ -446,23 +323,18 @@ public class OperatorManagementSystem {
   }
 
   public void uploadReviewImage(String reviewId, String imageName) {
-    /*
-     * Can uploaded images to Expert reviews only
-     * 1. Check that review ID inputted matches an existing review ID
-     * 2. Check that the review is an expert review
-     * 3. Add image, print success message (can add multiple images - string array)
-     */
-
      // Check if the review ID matches an existing expert review
     Review review = getReviewFromId(reviewId);
     if (review == null) {
       // Prints error message if review ID is invalid
       MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+      
     } else if (review instanceof ExpertReview) {
       ExpertReview reviewExpert = (ExpertReview) review;
       // Changes the print message to include the image
       reviewExpert.addImage(imageName);
       MessageCli.REVIEW_IMAGE_ADDED.printMessage(imageName, reviewId);
+
     } else {
       // Prints error message if review found is not an expert review
       MessageCli.REVIEW_IMAGE_NOT_ADDED_NOT_EXPERT.printMessage(reviewId);
@@ -471,15 +343,6 @@ public class OperatorManagementSystem {
   }
 
   public void displayTopActivities() {
-    /*
-     * Displays the top activities for each location
-     * == For each location ==
-     * 1. Print header for the location
-     * - if none: print no reviewed activities for location, same if no activities
-     * 2. Print top activity for the location (highest AVERAGE rating)
-     * - Does not matter if there are ties in the rating
-    */
-
     // Finds top activities (if any) for each location
     for (Location location : Location.values()) {
       Activity topActivity = null;
