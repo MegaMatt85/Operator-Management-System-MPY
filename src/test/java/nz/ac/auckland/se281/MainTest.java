@@ -15,8 +15,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
   MainTest.Task1.class,
-  // MainTest.Task2.class,
-  // MainTest.Task3.class,
+  MainTest.Task2.class,
+  MainTest.Task3.class,
   MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
 public class MainTest {
@@ -1067,6 +1067,242 @@ public class MainTest {
       assertDoesNotContain("Operator not created", true);
       //assertDoesNotContain("There is", true);
       assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_09_view_single_activity() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_ACTIVITY,
+              "'Bethells Beach Camel Trek'",
+              "Adventure",
+              "'WACT-AKL-001'",
+              VIEW_ACTIVITIES,
+              "'WACT-AKL-001'",
+              EXIT));
+
+      assertContains("There is 1 matching activity found:");
+      assertContains(
+          "* Bethells Beach Camel Trek: [WACT-AKL-001-001/Adventure] offered by West Auckland Camel"
+              + " Treks");
+    }
+
+    @Test
+    public void Matt_10_view_2_or_more_activities() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_ACTIVITY,
+              "'Bethells Beach Camel Trek'",
+              "Adventure",
+              "'WACT-AKL-001'",
+              CREATE_ACTIVITY,
+              "'Sky Tower Base Jumping'",
+              "Adventure",
+              "'WACT-AKL-001'",
+              CREATE_ACTIVITY,
+              "'Sky Tower Base Jumping'",
+              "Adventure",
+              "'WACT-AKL-001'",
+              CREATE_ACTIVITY,
+              "'Sky Tower Base Jumping'",
+              "Adventure",
+              "'WACT-AKL-001'",
+              CREATE_ACTIVITY,
+              "'Sky Tower Base Jumping'",
+              "Adventure",
+              "'WACT-AKL-001'",
+              CREATE_ACTIVITY,
+              "'Sky Tower Base Jumping'",
+              "Adventure",
+              "'WACT-AKL-001'",
+              VIEW_ACTIVITIES,
+              "'WACT-AKL-001'",
+              EXIT));
+
+      assertContains(
+          "* Bethells Beach Camel Trek: [WACT-AKL-001-001/Adventure] offered by West Auckland Camel"
+              + " Treks");
+      assertContains(
+          "* Sky Tower Base Jumping: [WACT-AKL-001-002/Adventure] offered by West Auckland Camel"
+              + " Treks");
+      assertDoesNotContain("There is", true);
+    }
+
+    @Test
+    public void Matt_11_keyword_activity_name_case_insensitive() throws Exception {
+      runCommands(
+          unpack(CREATE_14_OPERATORS, CREATE_27_ACTIVITIES, SEARCH_ACTIVITIES, "SpaceSHips", EXIT));
+
+      assertContains("There is 1 matching activity found:");
+      assertContains(
+          "* Stars or Spaceships?: [NUW-NSN-001-001/Scenic] offered by Nelson UFO Watching");
+      assertDoesNotContain("zero", true);
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_12_keyword_activity_matt_edition() throws Exception {
+      runCommands(
+          unpack(CREATE_14_OPERATORS, CREATE_27_ACTIVITIES, SEARCH_ACTIVITIES, "cul   ", EXIT));
+
+      assertContains("There are 2 matching activities found:");
+      assertContains(
+          "* Jumping Through Political Loopholes: [PBJ-WLG-001-001/Culture] offered by Parliament"
+              + " Bungee Jump");
+      assertContains(
+          "* Legends of the Lost Snow: [MMSR-TRG-001-001/Culture] offered by Mount Maunganui Ski"
+              + " Resort");
+      assertDoesNotContain("zero", true);
+      assertDoesNotContain("There is 1", true);
+    }
+
+    @Test
+    public void Matt_13_public_review_saved2() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_27_ACTIVITIES,
+              ADD_PUBLIC_REVIEW,
+              "SSB-TRG-002-001",
+              options("Alice", "y", "-12", "Could be brown"),
+              DISPLAY_REVIEWS,
+              "SSB-TRG-002-001",
+              EXIT));
+
+      assertContains("There is 1 review for activity 'Nemos Playground'.");
+      assertContains("* [0/5] Public review (SSB-TRG-002-001-R1) by 'Anonymous'");
+      assertContains("\"Could be brown\"");
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_14_private_review_saved2() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_27_ACTIVITIES,
+              ADD_PRIVATE_REVIEW,
+              "TUW-TUO-002-002",
+              options(
+                  "Felicia", "felicia@email.com", "-18", "Thank you for the great experience!", "y"),
+              DISPLAY_REVIEWS,
+              "TUW-TUO-002-002",
+              EXIT));
+
+      assertContains("There is 1 review for activity 'Close Encounters of the Lake'.");
+      assertContains("* [0/5] Private review (TUW-TUO-002-002-R1) by 'Felicia'");
+      //assertContains("Resolved: \"-\"");
+      assertContains("\"Thank you for the great experience!\"");
+      assertDoesNotContain("There are", true);
+      //assertDoesNotContain("Need to email", true);
+    }
+
+    @Test
+    public void Matt_15_expert_review_saved2() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_27_ACTIVITIES,
+              ADD_EXPERT_REVIEW,
+              "SSB-TRG-002-001",
+              options("Alice", "-5", "Could be better", "y"),
+              DISPLAY_REVIEWS,
+              "SSB-TRG-002-001",
+              EXIT));
+
+      assertContains("There is 1 review for activity 'Nemos Playground'.");
+      assertContains("* [0/5] Expert review (SSB-TRG-002-001-R1) by 'Alice'");
+      assertContains("\"Could be better\"");
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_16_multiple_reviews_saved() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_27_ACTIVITIES,
+              ADD_EXPERT_REVIEW,
+              "SSB-TRG-002-001",
+              options("Alice", "-5", "Could be better", "y"),
+              ADD_PUBLIC_REVIEW,
+              "SSB-TRG-002-001",
+              options("Alice", "y", "-12", "Could be brown"),
+              ADD_PRIVATE_REVIEW,
+              "TUW-TUO-002-002",
+              options(
+                  "Felicia", "felicia@email.com", "-18", "Thank you for the great experience!", "y"),
+              ADD_PRIVATE_REVIEW,
+              "SSB-TRG-002-001",
+              options(
+                  "Felicia", "felicia@email.com", "-18", "Thank you for the great experience!", "y"),
+              ADD_PRIVATE_REVIEW,
+              "SSB-TRG-002-011",
+              options(
+                  "Felicia", "felicia@email.com", "-18", "Thank you for the great experience!", "y"),
+              DISPLAY_REVIEWS,
+              "SSB-TRG-002-001",
+              EXIT));
+
+      // assertContains("There is 1 review for activity 'Nemos Playground'.");
+      // assertContains("* [0/5] Expert review (SSB-TRG-002-001-R1) by 'Alice'");
+      // assertContains("\"Could be better\"");
+      assertContains("There are");
+    }
+
+    @Test
+    public void Matt_17_add_multiple_images() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_27_ACTIVITIES,
+              ADD_EXPERT_REVIEW,
+              "ARWR-CHC-002-003",
+              options("Eve", "4", "Lots of rapids, very scary, watch out!", "y"),
+              UPLOAD_REVIEW_IMAGE,
+              "ARWR-CHC-002-003-R1",
+              "image1.jpg",
+              UPLOAD_REVIEW_IMAGE,
+              "ARWR-CHC-002-003-R1",
+              "image2.jpg",
+              UPLOAD_REVIEW_IMAGE,
+              "ARWR-CHC-002-003-R1",
+              "image3.jpg",
+              UPLOAD_REVIEW_IMAGE,
+              "ARWR-CHC-002-003-R1",
+              "image4.jpg",
+              DISPLAY_REVIEWS,
+              "ARWR-CHC-002-003",
+              EXIT));
+
+      assertContains("Image 'image1.jpg' uploaded successfully for review 'ARWR-CHC-002-003-R1'.");
+      assertContains("Image 'image2.jpg' uploaded successfully for review 'ARWR-CHC-002-003-R1'.");
+
+      assertContains("There is 1 review for activity 'River Rush'.");
+      assertContains("* [4/5] Expert review (ARWR-CHC-002-003-R1) by 'Eve'");
+      //assertContains("Images: [image1.jpg,image2.jpg]");
+      assertDoesNotContain("There are", true);
+    }
+
+    @Test
+    public void Matt_18_display_top_activities() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_14_OPERATORS,
+              CREATE_27_ACTIVITIES,
+              ADD_PUBLIC_REVIEW,
+              "SSB-TRG-002-001",
+              options("Alice", "n", "3", "Could be better"),
+              DISPLAY_TOP_ACTIVITIES,
+              EXIT));
+
+      assertContains(
+          "Top reviewed activity in Tauranga is 'Nemos Playground',"
+              + " with an average"
+              + " rating"
+              + " of 3"); // not caring about decimals
     }
   }
 

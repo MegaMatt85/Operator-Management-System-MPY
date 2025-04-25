@@ -110,7 +110,8 @@ public class OperatorManagementSystem {
       activityFound.printActivity();
 
     } else { // Prints 2 or more activities found
-      MessageCli.ACTIVITIES_FOUND.printMessage("are", Integer.toString(activitiesFound.size()), "ies", ":");
+      MessageCli.ACTIVITIES_FOUND.printMessage("are"
+        , Integer.toString(activitiesFound.size()), "ies", ":");
       // Prints every activity found
       for (int i = 0; i < activitiesFound.size(); i++) {
         Activity activityFound = activitiesFound.get(i);
@@ -125,7 +126,7 @@ public class OperatorManagementSystem {
 
      // Continues to create the activity only if the entered details are valid
      if (isActivityValid(activityName, type, operatorId) == true) {
-      // Creates the 3-digit number representing the activity number under the same operator
+      // Creates the activity's 3-digit number
       int activityNum = 1;
       for (Activity activity : this.savedActivities) {
         if (activity.getOperatorId().equals(operatorId)) {
@@ -140,9 +141,10 @@ public class OperatorManagementSystem {
 
       this.savedActivities.add(activity);
       
-      // Prints the activity name, activity ID, activity type, and activity operator for successful creation
-      MessageCli.ACTIVITY_CREATED.printMessage(activity.getName(), activity.getActivityId(),
-       activity.getActivityType().toString(), activity.getOperator().getName());
+      // Prints the successful creation message
+      MessageCli.ACTIVITY_CREATED.printMessage(activity.getName()
+        , activity.getActivityId(), activity.getActivityType().toString()
+       , activity.getOperator().getName());
      }
   }
 
@@ -193,7 +195,8 @@ public class OperatorManagementSystem {
       activityFound.printActivity();
 
     } else { // Prints for 2 or more activities found
-      MessageCli.ACTIVITIES_FOUND.printMessage("are", Integer.toString(activitiesFound.size()), "ies", ":");
+      MessageCli.ACTIVITIES_FOUND.printMessage("are"
+        , Integer.toString(activitiesFound.size()), "ies", ":");
       // Prints every activity found
       for (Activity activityFound : activitiesFound) {
         activityFound.printActivity();
@@ -263,17 +266,20 @@ public class OperatorManagementSystem {
 
       if (reviews.size() == 0) {
         // Print for no reviews found
-        MessageCli.REVIEWS_FOUND.printMessage("are", "no", "s", activity.getName());
+        MessageCli.REVIEWS_FOUND.printMessage("are", "no"
+          , "s", activity.getName());
 
       } else if (reviews.size() == 1) {
         // Print for 1 review found
-        MessageCli.REVIEWS_FOUND.printMessage("is", "1", "", activity.getName());
+        MessageCli.REVIEWS_FOUND.printMessage("is", "1"
+          , "", activity.getName());
         reviews.get(0).printReview();
 
       } else {
         String reviewCount = Integer.toString(reviews.size());
         // Print for 2 or more reviews found
-        MessageCli.REVIEWS_FOUND.printMessage("are", reviewCount, "s", activity.getName());
+        MessageCli.REVIEWS_FOUND.printMessage("are", reviewCount
+          , "s", activity.getName());
         // Print the individual reviews for every review
         for (Review review : reviews) {
           review.printReview();
@@ -349,9 +355,10 @@ public class OperatorManagementSystem {
       // Goes through the activity's reviews if it is in the current location
       for (Activity activity : this.savedActivities) {
         if (activity.getOperator().getLocation().equals(location)) {
-          // Updates the top activity for the current location if its average rating is higher
+          // Updates topActivity if no other reviewed activity exists
           if ((topActivity == null) && (activity.getReviews().size() > 0)) {
             topActivity = activity;
+          // Updates topActivity if a higher reviewed activity is found
           } else if ((topActivity != null) && 
             (activity.getAverageRating() > topActivity.getAverageRating())) {
             topActivity = activity;
@@ -359,17 +366,17 @@ public class OperatorManagementSystem {
         }  
       }
 
-      // Prints the top activity if it exists and prints no reviewed activities otherwise
+      // Prints the top activity or no activity if no reviewed activities
       if (topActivity == null) {
         MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.getFullName());
       } else {
-         MessageCli.TOP_ACTIVITY.printMessage(location.getFullName(), topActivity.getName()
-           , Integer.toString(topActivity.getAverageRating()));//CHANGE
+         MessageCli.TOP_ACTIVITY.printMessage(location.getFullName()
+          , topActivity.getName(), Integer.toString(topActivity.getAverageRating()));
       }
     }
   }
 
-  // Prevents operator creation for invalid cases
+  // Checks if the operator to be created is valid
   public Boolean isOperatorValid(String operatorName, String location, Location locationFound) {
     // If operatorName is less than 3 characters
     if (operatorName.length() < 3) {
@@ -389,7 +396,8 @@ public class OperatorManagementSystem {
       String currentLocation = operator.getLocation().getLocationAbbreviation();
       if (currentName.equalsIgnoreCase(operatorName) 
         && currentLocation.equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
-        MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(operatorName, locationFound.getFullName());
+        MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(
+          operatorName, locationFound.getFullName());
         return false;
       }
     }
