@@ -15,7 +15,7 @@ public class Activity {
   private int sumRatings = 0;
 
   public Activity(String name, String operatorId, int activityNum,
-    ActivityType type, Operator operator) {
+  ActivityType type, Operator operator) {
     this.name = name;
     this.operatorId = operatorId;
     this.activityNum = activityNum;
@@ -64,7 +64,7 @@ public class Activity {
 
   public void printActivity() {
     System.out.println("* " + name + ": [" + activityId + "/" 
-      + type + "] offered by " + operator.getName());
+    + type + "] offered by " + operator.getName());
   }
 
   // Adds review to this particular activities reviews
