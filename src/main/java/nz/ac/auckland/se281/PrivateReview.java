@@ -1,9 +1,9 @@
 package nz.ac.auckland.se281;
 
 public class PrivateReview extends Review {
-  String email;
-  Boolean resolved;
-  String resolutionMessage = "-";
+  private String email;
+  private Boolean resolved;
+  private String resolutionMessage = "-";
 
   PrivateReview(String[] options, Activity activity) {
     super(activity);

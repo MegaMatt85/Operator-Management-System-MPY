@@ -3,8 +3,8 @@ package nz.ac.auckland.se281;
 import java.util.ArrayList;
 
 public class ExpertReview extends Review {
-  Boolean reccomend;
-  ArrayList<String> images = new ArrayList<>();
+  private Boolean reccomend;
+  private ArrayList<String> images = new ArrayList<>();
 
   ExpertReview(String[] options, Activity activity) {
     super(activity);

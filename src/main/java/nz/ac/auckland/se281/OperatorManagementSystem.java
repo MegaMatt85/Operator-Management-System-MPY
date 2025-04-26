@@ -25,11 +25,12 @@ public class OperatorManagementSystem {
       String operatorName = currentOperator.getName().toLowerCase();
       String operatorLocationEng = currentOperator.getLocation().getNameEnglish().toLowerCase();
       String operatorLocationTeReo = currentOperator.getLocation().getNameTeReo().toLowerCase();
-      String operatorLocationAbbr = currentOperator.getLocation().getLocationAbbreviation().toLowerCase();
+      String operatorLocationAbbr = currentOperator.
+      getLocation().getLocationAbbreviation().toLowerCase();
       // Checks if any of the strings contain the keyword or if the keyword is "*"
       if (keyword.equals("*") || operatorName.contains(keyword) 
-        || operatorLocationEng.contains(keyword) || operatorLocationTeReo.contains(keyword) 
-        || operatorLocationAbbr.contains(keyword)) {
+      || operatorLocationEng.contains(keyword) || operatorLocationTeReo.contains(keyword) 
+      || operatorLocationAbbr.contains(keyword)) {
         operatorFoundIndexes.add(i);
       }
     }
@@ -46,7 +47,7 @@ public class OperatorManagementSystem {
 
     } else { // Prints for the total number of operators found if there are two or more
       MessageCli.OPERATORS_FOUND.printMessage("are",
-        Integer.toString(operatorFoundIndexes.size()), "s", ":");
+      Integer.toString(operatorFoundIndexes.size()), "s", ":");
       // Prints the operator and their location for every operator found
       for (int i = 0; i < operatorFoundIndexes.size(); i++) {
         // Reference to the current operator found
@@ -79,8 +80,8 @@ public class OperatorManagementSystem {
       this.savedOperators.add(operator);
 
       // Prints the name of the operator created and operator ID and the location
-      MessageCli.OPERATOR_CREATED.printMessage(operatorName, operator.getId()
-        , operator.getLocation().getFullName());
+      MessageCli.OPERATOR_CREATED.printMessage(operatorName, operator.getId(),
+      operator.getLocation().getFullName());
     }
   }
 
@@ -110,8 +111,8 @@ public class OperatorManagementSystem {
       activityFound.printActivity();
 
     } else { // Prints 2 or more activities found
-      MessageCli.ACTIVITIES_FOUND.printMessage("are"
-        , Integer.toString(activitiesFound.size()), "ies", ":");
+      MessageCli.ACTIVITIES_FOUND.printMessage("are",
+      Integer.toString(activitiesFound.size()), "ies", ":");
       // Prints every activity found
       for (int i = 0; i < activitiesFound.size(); i++) {
         Activity activityFound = activitiesFound.get(i);
@@ -121,11 +122,11 @@ public class OperatorManagementSystem {
   }
 
   public void createActivity(String activityName, String activityType, String operatorId) {
-     // Convert activityType to activityType enum type
-     ActivityType type = ActivityType.fromString(activityType.trim());
+    // Convert activityType to activityType enum type
+    ActivityType type = ActivityType.fromString(activityType.trim());
 
-     // Continues to create the activity only if the entered details are valid
-     if (isActivityValid(activityName, type, operatorId) == true) {
+    // Continues to create the activity only if the entered details are valid
+    if (isActivityValid(activityName, type, operatorId) == true) {
       // Creates the activity's 3-digit number
       int activityNum = 1;
       for (Activity activity : this.savedActivities) {
@@ -142,10 +143,10 @@ public class OperatorManagementSystem {
       this.savedActivities.add(activity);
       
       // Prints the successful creation message
-      MessageCli.ACTIVITY_CREATED.printMessage(activity.getName()
-        , activity.getActivityId(), activity.getActivityType().toString()
-       , activity.getOperator().getName());
-     }
+      MessageCli.ACTIVITY_CREATED.printMessage(activity.getName(),
+      activity.getActivityId(), activity.getActivityType().toString(),
+      activity.getOperator().getName());
+    }
   }
 
   public void searchActivities(String keyword) {
@@ -178,8 +179,8 @@ public class OperatorManagementSystem {
 
         // Check if the keyword is in any of the strings
         if (name.contains(keyword) || type.contains(keyword) 
-          || locationEng.contains(keyword) || locationTeReo.contains(keyword)
-          || locationAbbr.contains(keyword)) {
+        || locationEng.contains(keyword) || locationTeReo.contains(keyword)
+        || locationAbbr.contains(keyword)) {
           activitiesFound.add(activity);
         }
       }
@@ -222,7 +223,7 @@ public class OperatorManagementSystem {
   }
 
   public void addPrivateReview(String activityId, String[] options) {
-     // Check that the activity ID matches an existing one
+    // Check that the activity ID matches an existing one
     Activity activity = getActivityFromId(activityId);
     if (activity == null) {
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
@@ -266,20 +267,20 @@ public class OperatorManagementSystem {
 
       if (reviews.size() == 0) {
         // Print for no reviews found
-        MessageCli.REVIEWS_FOUND.printMessage("are", "no"
-          , "s", activity.getName());
+        MessageCli.REVIEWS_FOUND.printMessage("are", "no",
+          "s", activity.getName());
 
       } else if (reviews.size() == 1) {
         // Print for 1 review found
-        MessageCli.REVIEWS_FOUND.printMessage("is", "1"
-          , "", activity.getName());
+        MessageCli.REVIEWS_FOUND.printMessage("is", "1",
+        "", activity.getName());
         reviews.get(0).printReview();
 
       } else {
         String reviewCount = Integer.toString(reviews.size());
         // Print for 2 or more reviews found
-        MessageCli.REVIEWS_FOUND.printMessage("are", reviewCount
-          , "s", activity.getName());
+        MessageCli.REVIEWS_FOUND.printMessage("are", reviewCount,
+          "s", activity.getName());
         // Print the individual reviews for every review
         for (Review review : reviews) {
           review.printReview();
@@ -329,7 +330,7 @@ public class OperatorManagementSystem {
   }
 
   public void uploadReviewImage(String reviewId, String imageName) {
-     // Check if the review ID matches an existing expert review
+    // Check if the review ID matches an existing expert review
     Review review = getReviewFromId(reviewId);
     if (review == null) {
       // Prints error message if review ID is invalid
@@ -370,8 +371,8 @@ public class OperatorManagementSystem {
       if (topActivity == null) {
         MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.getFullName());
       } else {
-         MessageCli.TOP_ACTIVITY.printMessage(location.getFullName()
-          , topActivity.getName(), Integer.toString(topActivity.getAverageRating()));
+        MessageCli.TOP_ACTIVITY.printMessage(location.getFullName(),
+        topActivity.getName(), Integer.toString(topActivity.getAverageRating()));
       }
     }
   }
@@ -395,9 +396,9 @@ public class OperatorManagementSystem {
       String currentName = operator.getName();
       String currentLocation = operator.getLocation().getLocationAbbreviation();
       if (currentName.equalsIgnoreCase(operatorName) 
-        && currentLocation.equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
+      && currentLocation.equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
         MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(
-          operatorName, locationFound.getFullName());
+        operatorName, locationFound.getFullName());
         return false;
       }
     }

@@ -1,8 +1,8 @@
 package nz.ac.auckland.se281;
 
 public class PublicReview extends Review {
-  Boolean anonymous;
-  Boolean endorsed = false;
+  private Boolean anonymous;
+  private Boolean endorsed = false;
 
   PublicReview(String[] options, Activity activity) {
     super(activity);

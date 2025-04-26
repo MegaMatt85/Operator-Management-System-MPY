@@ -24,7 +24,7 @@ public abstract class Review {
   }
 
   public String getReviewId() {
-    	return this.reviewId;
+    return this.reviewId;
   }
 
   public abstract void printSuccess();

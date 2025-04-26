@@ -1,7 +1,6 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
-
 import nz.ac.auckland.se281.Types.ActivityType;
 
 public class Activity {
@@ -15,7 +14,8 @@ public class Activity {
   private ArrayList<Review> reviews = new ArrayList<>();
   private int sumRatings = 0;
 
-  public Activity(String name, String operatorId, int activityNum, ActivityType type, Operator operator) {
+  public Activity(String name, String operatorId, int activityNum,
+    ActivityType type, Operator operator) {
     this.name = name;
     this.operatorId = operatorId;
     this.activityNum = activityNum;
@@ -52,7 +52,7 @@ public class Activity {
     if (reviews.size() != 0) {
       return this.sumRatings / this.reviews.size();
     }
-    return 0; // Change?
+    return 0;
   }
 
   public String createActivityId() {
@@ -63,7 +63,8 @@ public class Activity {
   }
 
   public void printActivity() {
-    System.out.println("* " + name + ": [" + activityId + "/" + type + "] offered by " + operator.getName());
+    System.out.println("* " + name + ": [" + activityId + "/" 
+      + type + "] offered by " + operator.getName());
   }
 
   // Adds review to this particular activities reviews
