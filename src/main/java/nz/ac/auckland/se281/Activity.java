@@ -15,7 +15,7 @@ public class Activity {
   private int sumRatings = 0;
 
   public Activity(String name, String operatorId, int activityNum,
-  ActivityType type, Operator operator) {
+    ActivityType type, Operator operator) {
     this.name = name;
     this.operatorId = operatorId;
     this.activityNum = activityNum;
@@ -49,14 +49,16 @@ public class Activity {
   }
 
   public int getAverageRating() {
+    // Counts the number of reviews that are public or expert
     int rateableReviewSize = 0;
     for (Review review : this.reviews) {
       if (review instanceof PublicReview || review instanceof ExpertReview) {
         rateableReviewSize++;
       }
     }
-    if (rateableReviewSize != 0) {
-      
+
+    // Returns the average of all public/expert ratings
+    if (rateableReviewSize != 0) {  
       return this.sumRatings / rateableReviewSize;
     }
     return 0;

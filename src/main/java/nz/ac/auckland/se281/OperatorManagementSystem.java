@@ -29,8 +29,8 @@ public class OperatorManagementSystem {
         .getLocation().getLocationAbbreviation().toLowerCase();
       // Checks if any of the strings contain the keyword or if the keyword is "*"
       if (keyword.equals("*") || operatorName.contains(keyword) 
-        || operatorLocationEng.contains(keyword) || operatorLocationTeReo.contains(keyword) 
-        || operatorLocationAbbr.contains(keyword)) {
+          || operatorLocationEng.contains(keyword) || operatorLocationTeReo.contains(keyword) 
+          || operatorLocationAbbr.contains(keyword)) {
         operatorFoundIndexes.add(i);
       }
     }
@@ -180,9 +180,9 @@ public class OperatorManagementSystem {
         locationAbbr = operatorLocation.getLocationAbbreviation().toLowerCase();
 
         // Check if the keyword is in any of the strings
-        if (name.contains(keyword) || type.contains(keyword) 
-          || locationEng.contains(keyword) || locationTeReo.contains(keyword)
-          || locationAbbr.contains(keyword)) {
+        if (name.contains(keyword) || type.contains(keyword) ||
+          locationEng.contains(keyword) || locationTeReo.contains(keyword) ||
+            locationAbbr.contains(keyword)) {
           activitiesFound.add(activity);
         }
       }
@@ -282,7 +282,7 @@ public class OperatorManagementSystem {
         String reviewCount = Integer.toString(reviews.size());
         // Print for 2 or more reviews found
         MessageCli.REVIEWS_FOUND.printMessage("are", reviewCount,
-        "s", activity.getName());
+            "s", activity.getName());
         // Print the individual reviews for every review
         for (Review review : reviews) {
           review.printReview();
@@ -361,15 +361,15 @@ public class OperatorManagementSystem {
           // Updates topActivity if no other reviewed activity exists
           if ((topActivity == null) && (activity.getReviews().size() > 0)) {
             for (Review review : activity.getReviews()) {
-              if (review instanceof PublicReview 
-                || review instanceof ExpertReview) {
-                  topActivity = activity;
-                }
+              if (review instanceof PublicReview ||
+                  review instanceof ExpertReview) {
+                topActivity = activity;
+              }
             }
           // Updates topActivity if a higher reviewed activity is found
           } else if ((topActivity != null)
-            && (activity.getAverageRating() > topActivity.getAverageRating())) {
-            topActivity = activity;
+                && (activity.getAverageRating() > topActivity.getAverageRating())) {
+              topActivity = activity;
           }
         }  
       }
@@ -403,7 +403,7 @@ public class OperatorManagementSystem {
       String currentName = operator.getName();
       String currentLocation = operator.getLocation().getLocationAbbreviation();
       if (currentName.equalsIgnoreCase(operatorName) 
-        && currentLocation.equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
+          && currentLocation.equalsIgnoreCase(locationFound.getLocationAbbreviation())) {
         MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(
           operatorName, locationFound.getFullName());
         return false;

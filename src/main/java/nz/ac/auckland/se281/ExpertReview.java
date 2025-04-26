@@ -32,7 +32,7 @@ public class ExpertReview extends Review {
   @Override
   public void printSuccess() {
     MessageCli.REVIEW_ADDED.printMessage("Expert", 
-      super.reviewId, super.activity.getName());
+        super.reviewId, super.activity.getName());
   }
 
   @Override

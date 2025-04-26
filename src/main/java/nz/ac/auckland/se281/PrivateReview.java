@@ -32,8 +32,8 @@ public class PrivateReview extends Review {
 
   @Override
   public void printSuccess() {
-    MessageCli.REVIEW_ADDED.printMessage("Private", 
-    super.reviewId, super.activity.getName());
+    MessageCli.REVIEW_ADDED.printMessage(
+      "Private", super.reviewId, super.activity.getName());
   }
 
   @Override
