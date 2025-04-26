@@ -12,8 +12,8 @@ public class ExpertReview extends Review {
     super.rating = Integer.parseInt(options[1]);
     super.comment = options[2];
 
-    if (super.rating < 0) {
-      super.rating = 0;
+    if (super.rating < 1) {
+      super.rating = 1;
     } else if (this.rating > 5) {
       super.rating = 5;
     }

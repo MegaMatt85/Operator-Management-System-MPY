@@ -49,8 +49,15 @@ public class Activity {
   }
 
   public int getAverageRating() {
-    if (reviews.size() != 0) {
-      return this.sumRatings / this.reviews.size();
+    int rateableReviewSize = 0;
+    for (Review review : this.reviews) {
+      if (review instanceof PublicReview || review instanceof ExpertReview) {
+        rateableReviewSize++;
+      }
+    }
+    if (rateableReviewSize != 0) {
+      
+      return this.sumRatings / rateableReviewSize;
     }
     return 0;
   }
@@ -63,13 +70,15 @@ public class Activity {
   }
 
   public void printActivity() {
-    System.out.println("* " + name + ": [" + activityId + "/" 
-    + type + "] offered by " + operator.getName());
+    MessageCli.ACTIVITY_ENTRY.printMessage(name, activityId, type.toString(),
+      operator.getName());
   }
 
   // Adds review to this particular activities reviews
   public void addReview(Review review) {
     this.reviews.add(review);
-    this.sumRatings += review.getRating();
+    if (review instanceof PublicReview || review instanceof ExpertReview) {
+      this.sumRatings += review.getRating();
+    }
   }
 }

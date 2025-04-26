@@ -122,6 +122,8 @@ public class OperatorManagementSystem {
   }
 
   public void createActivity(String activityName, String activityType, String operatorId) {
+    activityName = activityName.trim();
+
     // Convert activityType to activityType enum type
     ActivityType type = ActivityType.fromString(activityType.trim());
 
@@ -358,7 +360,12 @@ public class OperatorManagementSystem {
         if (activity.getOperator().getLocation().equals(location)) {
           // Updates topActivity if no other reviewed activity exists
           if ((topActivity == null) && (activity.getReviews().size() > 0)) {
-            topActivity = activity;
+            for (Review review : activity.getReviews()) {
+              if (review instanceof PublicReview 
+                || review instanceof ExpertReview) {
+                  topActivity = activity;
+                }
+            }
           // Updates topActivity if a higher reviewed activity is found
           } else if ((topActivity != null)
             && (activity.getAverageRating() > topActivity.getAverageRating())) {

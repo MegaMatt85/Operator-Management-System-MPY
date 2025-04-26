@@ -48,7 +48,6 @@ public class Operator {
   }
 
   public void printOperator() {
-    System.out.println("* " + name + " ('" + id 
-        + "' located in '" + location.getFullName() + "')");
+    MessageCli.OPERATOR_ENTRY.printMessage(name, id, location.getFullName());
   }
 }

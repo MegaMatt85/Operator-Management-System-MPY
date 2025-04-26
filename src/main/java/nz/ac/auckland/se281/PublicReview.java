@@ -16,8 +16,8 @@ public class PublicReview extends Review {
       this.anonymous = false;
     }
 
-    if (super.rating < 0) {
-      super.rating = 0;
+    if (super.rating < 1) {
+      super.rating = 1;
     } else if (this.rating > 5) {
       super.rating = 5;
     }
